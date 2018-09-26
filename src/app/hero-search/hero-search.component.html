@@ -1,6 +1,6 @@
 <div id="search-component">
-  <h4>Hero Search</h4>
-
+  <h4 (click)="log()">Hero Search</h4>
+  <p>my info: {{info}}</p>
   <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
 
   <ul class="search-result">
@@ -11,3 +11,5 @@
     </li>
   </ul>
 </div>
+
+<p>outputting text: {{TestTextService.textContainer}}</p>

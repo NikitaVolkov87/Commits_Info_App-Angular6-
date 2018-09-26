@@ -8,4 +8,9 @@
   </a>
 </div>
 
-<app-hero-search></app-hero-search>
+<input [(ngModel)]="servText" (ngModelChange)="TestTextService.newText(servText)" type="text">
+<span>some service text -> {{servText}}</span>
+<button (click)="TestTextService.clearText(); servText=''">clear text</button>
+
+<app-hero-search [info]="someInfo"></app-hero-search>
+<p>info: {{someInfo}}</p>
