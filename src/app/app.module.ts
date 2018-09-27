@@ -1,19 +1,19 @@
-import { NgModule }       from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { FormsModule }    from '@angular/forms';
-import { HttpClientModule }    from '@angular/common/http';
+import { NgModule }             from '@angular/core';
+import { BrowserModule }        from '@angular/platform-browser';
+import { FormsModule }          from '@angular/forms';
+import { HttpClientModule }     from '@angular/common/http';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryDataService }  from './_services/in-memory-data.service';
 
-import { AppRoutingModule }     from './app-routing.module';
+import { AppRoutingModule }     from './_routers/app-routing.module';
 
-import { AppComponent }         from './app.component';
-import { DashboardComponent }   from './dashboard/dashboard.component';
-import { HeroDetailComponent }  from './hero-detail/hero-detail.component';
-import { HeroesComponent }      from './heroes/heroes.component';
-import { HeroSearchComponent }  from './hero-search/hero-search.component';
-import { MessagesComponent }    from './messages/messages.component';
+import { AppComponent }         from './_components/app.component';
+import { DashboardComponent }   from './_components/dashboard/dashboard.component';
+import { HeroDetailComponent }  from './_components/hero-detail/hero-detail.component';
+import { HeroesComponent }      from './_components/heroes/heroes.component';
+import { HeroSearchComponent }  from './_components/hero-search/hero-search.component';
+import { MessagesComponent }    from './_components/messages/messages.component';
 
 @NgModule({
   imports: [
