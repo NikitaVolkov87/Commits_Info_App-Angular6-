@@ -14,3 +14,9 @@
 
 <app-hero-search [info]="someInfo"></app-hero-search>
 <p>info: {{someInfo}}</p>
+<button (click)="heroService.log(servText)">try private</button>
+
+<br>
+<span>User name:</span><input [(ngModel)]="heroService.userName" type="text">
+<span>User repo:</span><input [(ngModel)]="heroService.userRepo" type="text">
+<button (click)="heroService.getCommits(heroService.userName, heroService.userRepo)">get commits</button>

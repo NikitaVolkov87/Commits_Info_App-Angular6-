@@ -14,7 +14,11 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class HeroService {
 
+  public userName: string = 'thoughtbot';
+  public userRepo: string = 'guides';
+
   private heroesUrl = 'api/heroes';  // URL to web api
+  private gitUrl = 'https://api.github.com/repos/'+this.userName+'/'+this.userRepo+'/commits';
 
   constructor(
     private http: HttpClient,
@@ -114,7 +118,16 @@ export class HeroService {
   }
 
   /** Log a HeroService message with the MessageService */
-  private log(message: string) {
+  private log(message: string): void {
     this.messageService.add(`HeroService: ${message}`);
+  }
+
+  getCommits(userName: string, userRepo: string): Observable<any> {
+    console.log(userName, userRepo);
+    return this.http.get<any>(this.gitUrl)
+      .pipe(
+        tap(commit => this.log(commit)),
+        catchError(this.handleError('getCommits', []))
+      );
   }
 }
