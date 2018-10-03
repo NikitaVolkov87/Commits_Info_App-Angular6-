@@ -10,6 +10,7 @@ import { TestTextService } from '../../_services/test-text.service';
 })
 export class DashboardComponent implements OnInit {
   heroes: Hero[] = [];
+  commits: any;
 
   constructor(private heroService: HeroService, private TestTextService: TestTextService) {
   }
@@ -29,5 +30,14 @@ export class DashboardComponent implements OnInit {
 
   nText(text: string): void {
     this.TestTextService.newText(text);
+  }
+
+  getCommits (userName: string, userRepo: string): void {
+    this.heroService.getCommits(userName, userRepo).subscribe( response => {
+      this.commits = response;
+    },
+    error => {
+      console.log("error ->", error);
+    })
   }
 }
