@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -16,8 +16,10 @@ export class HeroService {
 
   public userName: string = 'thoughtbot';
   public userRepo: string = 'guides';
+  public commits: any;
 
-  private heroesUrl = 'api/heroes';  // URL to web api
+  private heroesUrl: string = 'api/heroes';  // URL to web api
+  private token: string = '';
 
   constructor(
     private http: HttpClient,
@@ -121,9 +123,35 @@ export class HeroService {
     this.messageService.add(`HeroService: ${message}`);
   }
 
-  public getCommits (userName: string, userRepo: string): Observable<any> {
-    let gitUrl: string = `https://api.github.com/repos/${userName}/${userRepo}/commits`;
-    console.log("gitUrl ->", gitUrl);
-    return this.http.get(gitUrl);
+  getCommits(): void {
+    const params = new HttpParams()
+      .set('page', '1')
+      .set('per_page', '10');
+    let headers: any = null;
+    if (this.token) {
+      headers = new HttpHeaders()
+        .set('Authorization', `Bearer ${this.token}`);
+    }
+    let gitUrl: string = `https://api.github.com/repos/${this.userName}/${this.userRepo}/commits`;
+    this.http.get(gitUrl, {params, headers, observe: 'response'}).subscribe( answer => {
+      console.log(answer);
+      let links: string = answer.headers.get('Link');
+      console.log(this.linkTransformer(links));
+      this.commits = answer.body;
+    },
+    error => {
+      console.log("error ->", error);
+    });
+  }
+
+  linkTransformer(links: string): object {
+    let linkObj: object = {};
+    let linkArray: any[] = links.split(",");
+    linkArray.forEach(item => {
+      let property: string = item.slice(item.indexOf('"')+1, item.length-1);
+      let linkValue: string = item.slice(item.indexOf("<")+1, item.indexOf(">"));
+      linkObj[property] = linkValue;
+    });
+    return linkObj;
   }
 }

@@ -19,11 +19,11 @@
 <br>
 <span>User name:</span><input [(ngModel)]="heroService.userName" type="text">
 <span>User repo:</span><input [(ngModel)]="heroService.userRepo" type="text">
-<button (click)="getCommits(heroService.userName, heroService.userRepo)">get commits</button>
+<button (click)="heroService.getCommits()">get commits</button>
 
 <div class="list">
-  <a *ngFor="let commit of commits">
+  <a *ngFor="let commit of heroService.commits">
     <!-- routerLink="/detail/{{hero.id}}" -->
-    <p><span>{{commits.indexOf(commit)+1}}. </span><span>{{commit.commit.message}}</span></p>
+    <p><span>{{heroService.commits.indexOf(commit)+1}}. </span><span>{{commit.commit.message}}</span></p>
   </a>
 </div>
