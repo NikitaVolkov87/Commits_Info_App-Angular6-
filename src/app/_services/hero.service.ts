@@ -16,7 +16,6 @@ export class HeroService {
 
   public userName: string = 'thoughtbot';
   public userRepo: string = 'guides';
-  public commits: any;
 
   private heroesUrl: string = 'api/heroes';  // URL to web api
   private token: string = '';
@@ -123,35 +122,32 @@ export class HeroService {
     this.messageService.add(`HeroService: ${message}`);
   }
 
-  getCommits(): void {
-    const params = new HttpParams()
-      .set('page', '1')
-      .set('per_page', '10');
+  getCommits(url?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('per_page', '10')
+      .set('page', '1');
     let headers: any = null;
-    if (this.token) {
-      headers = new HttpHeaders()
-        .set('Authorization', `Bearer ${this.token}`);
+    let requestUrl: string;
+    if (this.token) { headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`) }
+    if (url) {
+      requestUrl = url;
+      params = null;
+    } else {
+      requestUrl = `https://api.github.com/repos/${this.userName}/${this.userRepo}/commits`;
     }
-    let gitUrl: string = `https://api.github.com/repos/${this.userName}/${this.userRepo}/commits`;
-    this.http.get(gitUrl, {params, headers, observe: 'response'}).subscribe( answer => {
-      console.log(answer);
-      let links: string = answer.headers.get('Link');
-      console.log(this.linkTransformer(links));
-      this.commits = answer.body;
-    },
-    error => {
-      console.log("error ->", error);
-    });
+    return this.http.get(requestUrl, {params, headers, observe: 'response'});
   }
 
-  linkTransformer(links: string): object {
-    let linkObj: object = {};
-    let linkArray: any[] = links.split(",");
-    linkArray.forEach(item => {
-      let property: string = item.slice(item.indexOf('"')+1, item.length-1);
+  linkTransformer(links: string): {name: string, link: string}[] {
+    let inArray: string[] = links.split(", ");
+    let outArray: {name: string, link: string}[] = [];
+    enum referenceArray {"first", "prev", "next", "last"};
+    inArray.forEach( item => {
+      let nameValue: string = item.slice(item.indexOf('"')+1, item.length-1);
       let linkValue: string = item.slice(item.indexOf("<")+1, item.indexOf(">"));
-      linkObj[property] = linkValue;
+      outArray[referenceArray[nameValue]] = {name: nameValue, link: linkValue};
     });
-    return linkObj;
+    outArray = outArray.filter( item => item ); // removes empty array items from outArray at first and last page
+    return outArray;
   }
 }

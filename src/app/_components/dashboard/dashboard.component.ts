@@ -12,10 +12,11 @@ import { TestTextService } from '../../_services/test-text.service';
 export class DashboardComponent implements OnInit {
   heroes: Hero[] = [];
 
-  constructor(private heroService: HeroService, private TestTextService: TestTextService) {
-  }
+  constructor(private heroService: HeroService, private TestTextService: TestTextService) {}
 
-  someInfo:string = "coll yeah!";
+  public someInfo:string = "coll yeah!";
+  public commits: object[];
+  public links: {name: string, link: string}[];
 
   ngOnInit() {
     this.getHeroes();
@@ -30,5 +31,21 @@ export class DashboardComponent implements OnInit {
 
   nText(text: string): void {
     this.TestTextService.newText(text);
+  }
+
+  getCommits(url?: string): void {
+    this.heroService.getCommits(url).subscribe( answer => {
+      console.log(answer);
+      let links: string = answer.headers.get('Link');
+      this.links = this.heroService.linkTransformer(links);
+      this.log(this.links);
+      this.commits = answer.body;
+    }, error => {
+      console.log("error ->", error);
+    });
+  }
+
+  log(item: any): void {
+    console.log(item);
   }
 }

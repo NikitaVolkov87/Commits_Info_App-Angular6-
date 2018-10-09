@@ -17,13 +17,18 @@
 <button (click)="heroService.log(servText)">try private</button>
 
 <br>
-<span>User name:</span><input [(ngModel)]="heroService.userName" type="text">
+<span (click)="log(commits)">User name:</span><input [(ngModel)]="heroService.userName" type="text">
 <span>User repo:</span><input [(ngModel)]="heroService.userRepo" type="text">
-<button (click)="heroService.getCommits()">get commits</button>
+<button (click)="getCommits()">get commits</button>
 
-<div class="list">
-  <a *ngFor="let commit of heroService.commits">
-    <!-- routerLink="/detail/{{hero.id}}" -->
-    <p><span>{{heroService.commits.indexOf(commit)+1}}. </span><span>{{commit.commit.message}}</span></p>
-  </a>
+<div class="github">
+  <div class="pagination">
+    <button *ngFor="let link of links" (click)="getCommits(link.link)">{{link.name}}</button>
+  </div>
+  <div class="list">
+    <a *ngFor="let commit of commits">
+      <!-- routerLink="/detail/{{hero.id}}" -->
+      <p><span>{{commits.indexOf(commit)+1}}. </span><span>{{commit.commit.message}}</span></p>
+    </a>
+  </div>
 </div>
