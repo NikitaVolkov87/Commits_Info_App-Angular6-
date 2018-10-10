@@ -1,0 +1,7 @@
+<h2>Commit detail page</h2>
+<button (click)="goBack()">Go back</button>
+<h3>Commit detail:</h3>
+<div class="detail" *ngFor="let detailName of commitDetailNames">
+  <h4>{{detailName}}</h4>
+  <p>{{parseObjects(detailName)}}</p>
+</div>

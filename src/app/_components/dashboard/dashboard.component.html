@@ -17,18 +17,20 @@
 <button (click)="heroService.log(servText)">try private</button>
 
 <br>
-<span (click)="log(commits)">User name:</span><input [(ngModel)]="heroService.userName" type="text">
-<span>User repo:</span><input [(ngModel)]="heroService.userRepo" type="text">
+<span (click)="log(page)">User name:</span><input [(ngModel)]="heroService.userName" (ngModelChange)="heroService.saveUserLS()" type="text">
+<span>User repo:</span><input [(ngModel)]="heroService.userRepo" (ngModelChange)="heroService.saveUserLS()" type="text">
 <button (click)="getCommits()">get commits</button>
+<button (click)="heroService.resetUser()">reset to default user</button>
 
 <div class="github">
   <div class="pagination">
     <button *ngFor="let link of links" (click)="getCommits(link.link)">{{link.name}}</button>
   </div>
   <div class="list">
-    <a *ngFor="let commit of commits">
-      <!-- routerLink="/detail/{{hero.id}}" -->
-      <p><span>{{commits.indexOf(commit)+1}}. </span><span>{{commit.commit.message}}</span></p>
+    <a *ngFor="let commit of commits"
+        (click)="getCommitHash(commit.sha)"
+        routerLink="/dashboard/commit-detail/{{commit.sha}}">
+      <p><span>{{(commits.indexOf(commit)+1)+10*(page-1)}}. </span><span>{{commit.commit.message}}</span></p>
     </a>
   </div>
 </div>
