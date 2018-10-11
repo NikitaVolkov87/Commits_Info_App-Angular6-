@@ -44,10 +44,6 @@ export class CommitsComponent implements OnInit {
     });
   }
 
-  log(item: any): void {
-    console.log(item);
-  }
-
   setFocusOnInputUserRepo() {
     this.inputEl2.nativeElement.focus();
     // document.getElementById('user-repo').focus();

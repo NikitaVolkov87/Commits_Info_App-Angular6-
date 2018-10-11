@@ -1,24 +1,64 @@
-<span (click)="log(page)">User name:</span><input id="user-name" 
-                                                  #input1
-                                                  [(ngModel)]="commitsService.userName" 
-                                                  (ngModelChange)="commitsService.saveUserLS()" 
-                                                  (keyup.enter)="setFocusOnInputUserRepo()" 
-                                                  type="text"
-                                                  (focus)="$event.target.select()">
-<span>User repo:</span><input id="user-repo" 
-                              #input2 
-                              [(ngModel)]="commitsService.userRepo" 
-                              (ngModelChange)="commitsService.saveUserLS()" 
-                              (keyup.enter)="getCommits()" 
-                              type="text"
-                              (focus)="$event.target.select()">
-<button (click)="getCommits()">Get commits</button>
-<button (click)="commitsService.resetUser()">fill in with defaults</button>
+<div class="user-form">
+  <div class="user-form__container">
+    <div class="user-form__row user-form__row_name">
+      <div class="user-form__col user-form__col_name-title">
+        <p class="user-form__elem_title user-form__elem_user-name">User name:</p>
+      </div>
+      <div class="user-form__col user-form__col_name-input">
+        <input class="user-form__elem_input user-form__elem_user-name-input"
+               #input1
+               [(ngModel)]="commitsService.userName" 
+               (ngModelChange)="commitsService.saveUserLS()" 
+               (keyup.enter)="setFocusOnInputUserRepo()" 
+               type="text"
+               (focus)="$event.target.select()">
+      </div>
+    </div>
+    <div class="user-form__row user-form__row_repo">
+      <div class="user-form__col user-form__col_repo-title">
+        <p class="user-form__elem_title user-form__elem_repo-title">User repo:</p>
+      </div>
+      <div class="user-form__col user-form__col_repo-input">
+        <input class="user-form__elem_input user-form__elem_repo-input"
+               #input2 
+               [(ngModel)]="commitsService.userRepo" 
+               (ngModelChange)="commitsService.saveUserLS()" 
+               (keyup.enter)="getCommits()" 
+               type="text"
+               (focus)="$event.target.select()">
+        <p class="text-link"
+           (click)="commitsService.resetUser()">
+             fill in with defaults
+        </p>
+      </div>
+    </div>
+    <div class="user-form__row user-form__row_button">
+      <div class="user-form__col user-form__col_button">
+        <button class="submit-button"
+                (click)="getCommits()">
+                  Get commits
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pagination" *ngIf="links">
+  <p class="pagination__title">pagination</p>
+  <div class="pagination__container">
+    <div class="pagination__row">
+      <button class="pagination__button"
+              *ngFor="let link of links" 
+              (click)="getCommits(link.link)">
+                {{link.name}}
+      </button>
+    </div>
+  </div>
+</div>
+
+
 
 <div class="github">
-  <div class="pagination">
-    <button *ngFor="let link of links" (click)="getCommits(link.link)">{{link.name}}</button>
-  </div>
   <div class="list">
     <a *ngFor="let commit of commits"
         (click)="commitsService.commitHash = commit.sha"

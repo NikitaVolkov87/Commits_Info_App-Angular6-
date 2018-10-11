@@ -1,12 +1,21 @@
-/* Master Styles */
+body {
+  overflow-x: hidden;
+}
+
+* {
+  font-family: 'K2D', sans-serif;
+}
+
+
+
 h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
+  margin: 0 auto 30px;
+  width: fit-content;
+  color: grey;
+  font-size: 2rem;
 }
 h2, h3 {
   color: #444;
-  font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
 body {
@@ -14,23 +23,28 @@ body {
 }
 body, input[text], button {
   color: #888;
-  font-family: Cambria, Georgia;
 }
 a {
   cursor: pointer;
   cursor: hand;
+  text-decoration: none;
 }
 button {
-  font-family: Arial;
-  background-color: #eee;
+  width: 100%;
   border: none;
-  padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
-  cursor: hand;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 3px 20px;
+  background-color: #e4e4e4;
+  outline: none;
+  transition: .5s color, .5s background-color, .5s box-shadow;
 }
 button:hover {
-  background-color: #cfd8dc;
+  color: white;
+  background-color: #9a9a9a;
+  box-shadow: 0 0 10px 0px #cccccc;
 }
 button:disabled {
   background-color: #eee;
@@ -38,28 +52,20 @@ button:disabled {
   cursor: auto;
 }
 
-/* Navigation link styles */
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  margin-right: 10px;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #eee;
-  border-radius: 4px;
+input {
+  /*margin: 10px;*/
+  padding: initial;
+  font-size: 1.5rem;
+  color: #5d5d5d;
+  border: 2px solid #cccccc;
+  border-radius: 5px;
+  outline: none;
+  transition: .5s box-shadow;
 }
-nav a:visited, a:link {
-  color: #607D8B;
+input:hover,
+input:focus {
+  box-shadow: 0 0 10px 0px #cccccc;
 }
-nav a:hover {
-  color: #039be5;
-  background-color: #CFD8DC;
-}
-nav a.active {
-  color: #039be5;
-}
-
-/* everywhere else */
-* {
-  font-family: Arial, Helvetica, sans-serif;
+input::selection {
+  background-color: #d0d0d0;
 }
