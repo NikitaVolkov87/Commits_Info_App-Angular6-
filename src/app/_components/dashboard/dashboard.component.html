@@ -17,10 +17,22 @@
 <button (click)="heroService.log(servText)">try private</button>
 
 <br>
-<span (click)="log(page)">User name:</span><input [(ngModel)]="heroService.userName" (ngModelChange)="heroService.saveUserLS()" type="text">
-<span>User repo:</span><input [(ngModel)]="heroService.userRepo" (ngModelChange)="heroService.saveUserLS()" type="text">
-<button (click)="getCommits()">get commits</button>
-<button (click)="heroService.resetUser()">reset to default user</button>
+<span (click)="log(page)">User name:</span><input id="user-name" 
+                                                  #input1
+                                                  [(ngModel)]="heroService.userName" 
+                                                  (ngModelChange)="heroService.saveUserLS()" 
+                                                  (keyup.enter)="setFocusOnInputUserRepo()" 
+                                                  type="text"
+                                                  (focus)="$event.target.select()">
+<span>User repo:</span><input id="user-repo" 
+                              #input2 
+                              [(ngModel)]="heroService.userRepo" 
+                              (ngModelChange)="heroService.saveUserLS()" 
+                              (keyup.enter)="getCommits()" 
+                              type="text"
+                              (focus)="$event.target.select()">
+<button (click)="getCommits()">Get commits</button>
+<button (click)="heroService.resetUser()">fill in with defaults</button>
 
 <div class="github">
   <div class="pagination">
@@ -28,9 +40,13 @@
   </div>
   <div class="list">
     <a *ngFor="let commit of commits"
-        (click)="getCommitHash(commit.sha)"
-        routerLink="/dashboard/commit-detail/{{commit.sha}}">
-      <p><span>{{(commits.indexOf(commit)+1)+10*(page-1)}}. </span><span>{{commit.commit.message}}</span></p>
+        (click)="heroService.commitHash = commit.sha"
+        routerLink="/dashboard/{{commit.sha}}">
+      <p><span>{{(commits.indexOf(commit)+1)+10*(heroService.page-1)}}. </span><span>{{commit.commit.message}}</span></p>
     </a>
+  </div>
+  <div class="error-message" *ngIf="errorMessage">
+    <h4>{{errorMessage.title}}</h4>
+    <h4>{{errorMessage.body}}</h4>
   </div>
 </div>

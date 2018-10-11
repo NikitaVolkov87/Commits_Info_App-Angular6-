@@ -18,6 +18,7 @@ export class HeroService {
   public userRepo: string = 'guides';
   public links: Links[];
   public commitHash: string;
+  public page: string;
 
   private heroesUrl: string = 'api/heroes';  // URL to web api
   private token: string = '';
@@ -167,8 +168,12 @@ export class HeroService {
 
   getUserLS(): void {
     const userLS: {userName: string, userRepo: string} = JSON.parse(localStorage.getItem('user'));
-    this.userName = userLS.userName;
-    this.userRepo = userLS.userRepo;
+    if ( userLS ) {
+      this.userName = userLS.userName;
+      this.userRepo = userLS.userRepo;
+    } else {
+      this.resetUser();
+    }
     this.commitsUrl = `https://api.github.com/repos/${this.userName}/${this.userRepo}/commits`;
   }
 

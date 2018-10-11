@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { ErrorMessage } from '../../_etc/hero';
 import { HeroService } from '../../_services/hero.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class CommitDetailComponent implements OnInit {
 
   public commitDetail: any;
   public commitDetailNames: string[] = [];
+  public errorMessage: ErrorMessage;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +34,10 @@ export class CommitDetailComponent implements OnInit {
       this.outputCommitDetail(answer.body);
     }, error => {
       console.log("error ->", error);
+      this.errorMessage = {
+        title: error.error.message,
+        body: error.message
+      }
     });
   }
 

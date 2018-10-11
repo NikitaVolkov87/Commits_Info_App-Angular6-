@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'heroes', component: HeroesComponent },
-  { path: 'dashboard/commit-detail/:hash', component: CommitDetailComponent }
+  { path: 'dashboard/:hash', component: CommitDetailComponent }
 ];
 
 @NgModule({
