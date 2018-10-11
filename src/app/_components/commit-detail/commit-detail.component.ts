@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 
-import { ErrorMessage } from '../../_etc/hero';
-import { HeroService } from '../../_services/hero.service';
+import { ErrorMessage } from '../../_misc/interfaces';
+import { CommitsService } from '../../_services/commits.service';
 
 @Component({
   selector: 'app-commit-detail',
@@ -18,18 +17,17 @@ export class CommitDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
-    private heroService: HeroService
+    private commitsService: CommitsService
   ) {}
 
   ngOnInit(): void {
-    this.heroService.getUserLS();
+    this.commitsService.getUserLS();
     this.getCommitDetail();
   }
 
   getCommitDetail(): void {
     const urlHash: string = this.route.snapshot.paramMap.get('hash');
-    this.heroService.getCommitDetail( this.heroService.commitHash || urlHash ).subscribe( answer => {
+    this.commitsService.getCommitDetail( this.commitsService.commitHash || urlHash ).subscribe( answer => {
       this.commitDetail = answer.body;
       this.outputCommitDetail(answer.body);
     }, error => {
@@ -45,10 +43,6 @@ export class CommitDetailComponent implements OnInit {
     for ( let item in body ) {
       this.commitDetailNames.push(item);
     }
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   parseObjects(item: string): string {

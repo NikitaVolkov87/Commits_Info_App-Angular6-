@@ -4,14 +4,14 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Links } from './../_etc/hero';
+import { Links } from './../_misc/interfaces';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({ providedIn: 'root' })
-export class HeroService {
+export class CommitsService {
 
   public userName: string = 'thoughtbot';
   public userRepo: string = 'guides';
