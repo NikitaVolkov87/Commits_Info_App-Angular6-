@@ -1,8 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
-import { Hero, Links, ErrorMessage } from '../../_etc/hero';
+import { Links, ErrorMessage } from '../../_etc/hero';
 import { HeroService } from '../../_services/hero.service';
-import { TestTextService } from '../../_services/test-text.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,33 +12,18 @@ export class DashboardComponent implements OnInit {
   @ViewChild('input1') inputEl1:ElementRef;
   @ViewChild('input2') inputEl2:ElementRef; // Это нужно для выбора эл-тов по local variable в темплейте по имени inputEl2 (тут это нужно для наброса фокуса на эти эл-ты)
 
-  heroes: Hero[] = [];
-  public someInfo:string = "coll yeah!";
   public commits: object[];
   public links: Links[];
   public errorMessage: ErrorMessage;
 
   constructor( 
     private heroService: HeroService, 
-    private TestTextService: TestTextService
   ) {}
 
   ngOnInit() {
-    this.getHeroes();
     this.heroService.getUserLS();
     this.commits = JSON.parse(sessionStorage.getItem('commits'));
     this.links = this.heroService.links;
-  }
-
-  getHeroes(): void {
-    this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes.slice(1, 5));
-  }
-
-  servText: string = this.TestTextService.textContainer;
-
-  nText(text: string): void {
-    this.TestTextService.newText(text);
   }
 
   getCommits(url?: string): void {

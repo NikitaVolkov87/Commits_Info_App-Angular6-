@@ -3,17 +3,10 @@ import { BrowserModule }        from '@angular/platform-browser';
 import { FormsModule }          from '@angular/forms';
 import { HttpClientModule }     from '@angular/common/http';
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './_services/in-memory-data.service';
-
 import { AppRoutingModule }     from './_routers/app-routing.module';
 
 import { AppComponent }         from './_components/app.component';
 import { DashboardComponent }   from './_components/dashboard/dashboard.component';
-import { HeroDetailComponent }  from './_components/hero-detail/hero-detail.component';
-import { HeroesComponent }      from './_components/heroes/heroes.component';
-import { HeroSearchComponent }  from './_components/hero-search/hero-search.component';
-import { MessagesComponent }    from './_components/messages/messages.component';
 import { CommitDetailComponent }  from './_components/commit-detail/commit-detail.component';
 
 
@@ -23,21 +16,10 @@ import { CommitDetailComponent }  from './_components/commit-detail/commit-detai
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    /*HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )*/
   ],
   declarations: [
     AppComponent,
     DashboardComponent,
-    HeroesComponent,
-    HeroDetailComponent,
-    MessagesComponent,
-    HeroSearchComponent,
     CommitDetailComponent
   ],
   bootstrap: [ AppComponent ]
