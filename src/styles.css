@@ -8,15 +8,19 @@ body {
 
 
 
+
 h1 {
-  margin: 0 auto 30px;
+  margin: auto;
   width: fit-content;
-  color: grey;
   font-size: 2rem;
+  text-align: center;
+  color: grey;
 }
 h2, h3 {
-  color: #444;
+  margin-top: 0;
   font-weight: lighter;
+  text-align: center;
+  color: grey;
 }
 body {
   margin: 2em;
@@ -68,4 +72,79 @@ input:focus {
 }
 input::selection {
   background-color: #d0d0d0;
+}
+
+
+
+
+/*Github response block*/
+.github {
+  position: relative;
+}
+
+.github__title {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -140%);
+  z-index: 10;
+  background-color: white;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+.github__container {
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
+  border-radius: 5px;
+  border: 2px solid #cccccc;
+  transition: .5s box-shadow;
+  overflow: hidden;
+}
+.github__container:hover {
+  box-shadow: 0 0 10px 0px #cccccc;
+}
+
+.github__link {
+  display: flex;
+  margin: 10px 0;
+  overflow: hidden;
+  color: #888888;
+  transition: .5s background-color;
+}
+.github__link:visited {
+  color: #484848;
+}
+.github__link:hover {
+  background-color: #eaeaea;
+}
+
+.github__subcol p {
+  margin: 0;
+}
+
+.github__subcol_succes_number {
+  min-width: 10%;
+  text-align: center;
+}
+
+.github__subcol_succes_item {
+  width: 85%;
+}
+
+.github__link_text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/*errors*/
+.github__error_title {
+  margin: 20px;
+  font-size: 4rem;
+}
+
+.github__error_text {
+  margin: 20px;
+  text-align: center;
 }

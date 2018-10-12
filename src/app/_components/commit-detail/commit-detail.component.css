@@ -1,0 +1,27 @@
+/*Back button*/
+.block_back-button {
+  margin-bottom: 30px;
+}
+
+.block__container_back-button {
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.back-button {
+  width: 100%;
+  max-width: 300px;
+}
+
+
+
+
+/*Github commit detail response*/
+.github__item-title {
+  margin: 20px;
+}
+
+.github__item-text {
+  margin: 0 20px;
+}

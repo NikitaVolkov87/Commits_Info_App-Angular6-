@@ -31,7 +31,6 @@ export class CommitDetailComponent implements OnInit {
       this.commitDetail = answer.body;
       this.outputCommitDetail(answer.body);
     }, error => {
-      console.log("error ->", error);
       this.errorMessage = {
         title: error.error.message,
         body: error.message

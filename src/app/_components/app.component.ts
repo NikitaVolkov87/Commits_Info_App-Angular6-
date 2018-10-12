@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title: string = 'Get commit detail app (built with Angular 6)';
+  title: string = 'Get commit detail app';
+  subtitle: string = "built with Angular 6 and it's fully adaptive";
 
   ngOnInit() {
     sessionStorage.setItem('commits', null);

@@ -27,16 +27,18 @@ export class CommitsComponent implements OnInit {
   }
 
   getCommits(url?: string): void {
-    this.commits = null;
     this.inputEl1.nativeElement.focus();
     this.commitsService.getCommits(url).subscribe( answer => {
+      this.commits = null;
+      this.errorMessage = null;
       let links: string = answer.headers.get('Link');
       this.links = this.commitsService.links = this.commitsService.linkTransformer(links);
       this.commits = answer.body;
       sessionStorage.setItem('commits', JSON.stringify(answer.body));
       this.commitsService.page = answer.url.split('&page=')[1];
     }, error => {
-      console.log("error ->", error);
+      this.commits = null;
+      this.links = null;
       this.errorMessage = {
         title: error.status,
         body: error.message

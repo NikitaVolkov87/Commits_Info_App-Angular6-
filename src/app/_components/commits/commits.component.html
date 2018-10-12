@@ -56,18 +56,29 @@
   </div>
 </div>
 
-
-
-<div class="github">
-  <div class="list">
-    <a *ngFor="let commit of commits"
-        (click)="commitsService.commitHash = commit.sha"
-        routerLink="/commits/{{commit.sha}}">
-      <p><span>{{(commits.indexOf(commit)+1)+10*(commitsService.page-1)}}. </span><span>{{commit.commit.message}}</span></p>
-    </a>
-  </div>
-  <div class="error-message" *ngIf="errorMessage">
-    <h4>{{errorMessage.title}}</h4>
-    <h4>{{errorMessage.body}}</h4>
+<div class="github" *ngIf="errorMessage || commits">
+  <p class="github__title">github response</p>
+  <div class="github__container">
+    <div class="github__row github__row_succes">
+      <div class="github__col github__col_succes">
+        <a href="" class="github__link"
+          *ngFor="let commit of commits"
+          (click)="commitsService.commitHash = commit.sha"
+           routerLink="/commits/{{commit.sha}}">
+          <div class="github__subcol github__subcol_succes_number">
+            <p class="github__link_number">{{(commits.indexOf(commit)+1)+10*(commitsService.page-1)}}. </p>
+          </div>
+          <div class="github__subcol github__subcol_succes_item">
+            <p class="github__link_text">{{commit.commit.message}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="github__row github__row_error" *ngIf="errorMessage">
+      <div class="github__col github__col_error">
+        <h2 class="github__error_title">{{errorMessage.title}}</h2>
+        <h4 class="github__error_text">{{errorMessage.body}}</h4>
+      </div>
+    </div>
   </div>
 </div>
