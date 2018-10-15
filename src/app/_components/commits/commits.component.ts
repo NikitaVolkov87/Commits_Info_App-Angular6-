@@ -17,7 +17,7 @@ export class CommitsComponent implements OnInit {
   public errorMessage: ErrorMessage;
 
   constructor( 
-    private commitsService: CommitsService, 
+    public commitsService: CommitsService, 
   ) {}
 
   ngOnInit() {
