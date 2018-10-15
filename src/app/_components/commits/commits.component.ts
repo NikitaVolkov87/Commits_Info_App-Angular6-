@@ -27,7 +27,7 @@ export class CommitsComponent implements OnInit {
   }
 
   getCommits(url?: string): void {
-    this.inputEl1.nativeElement.focus();
+    // this.inputEl1.nativeElement.focus();
     this.commitsService.getCommits(url).subscribe( answer => {
       this.commits = null;
       this.errorMessage = null;
@@ -46,13 +46,13 @@ export class CommitsComponent implements OnInit {
     });
   }
 
-  setFocusOnInputUserRepo() {
+  /*setFocusOnInputUserRepo() {
     this.inputEl2.nativeElement.focus();
     // document.getElementById('user-repo').focus();
-  }
+  }*/
 
-  ngAfterViewInit(){
+  /*ngAfterViewInit(){
     this.inputEl1.nativeElement.focus();
     this.inputEl1.nativeElement.select();
-  }
+  }*/
 }

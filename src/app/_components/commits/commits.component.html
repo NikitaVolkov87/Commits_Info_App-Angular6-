@@ -9,7 +9,7 @@
                #input1
                [(ngModel)]="commitsService.userName" 
                (ngModelChange)="commitsService.saveUserLS()" 
-               (keyup.enter)="setFocusOnInputUserRepo()" 
+               (keyup.enter)="input2.focus()" 
                type="text"
                (focus)="$event.target.select()">
       </div>
