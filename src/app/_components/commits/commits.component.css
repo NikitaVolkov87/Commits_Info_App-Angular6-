@@ -26,9 +26,12 @@
   margin: 10px 0 0;
   cursor: pointer;
   display: inline;
+  border-bottom: 1px dotted #888;
+  transition: .5s color, .5s border-bottom-color;
 }
 .text-link:hover {
-  outline-bottom: 1px dotted #888;
+  color: #444;
+  border-bottom-color: #444;
 }
 
 .user-form__elem_input {
