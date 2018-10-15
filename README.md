@@ -17,7 +17,7 @@ Enter GitHub user name, user's repository name and press get commits button. Nex
 
 ## Technologies used in this app
 - directives
-- components;
-- services;
-- routing;
-- http requests;
+- components
+- services
+- routing
+- http requests
