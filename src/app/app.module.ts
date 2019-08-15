@@ -8,6 +8,7 @@ import { AppRoutingModule }       from './_routers/app-routing.module';
 import { AppComponent }           from './_components/app.component';
 import { CommitsComponent }       from './_components/commits/commits.component';
 import { CommitDetailComponent }  from './_components/commit-detail/commit-detail.component';
+import { UserLoginComponent }     from './_components/user-login/user-login.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { CommitDetailComponent }  from './_components/commit-detail/commit-detai
   declarations: [
     AppComponent,
     CommitsComponent,
-    CommitDetailComponent
+    CommitDetailComponent,
+    UserLoginComponent
   ],
   bootstrap: [ AppComponent ]
 })
