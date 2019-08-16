@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
+  inputName: string = 'enter name';
+  inputPassword: string = 'enter pass';
 
   constructor() { }
 
@@ -18,5 +20,9 @@ export class UserLoginComponent implements OnInit {
 
   submit(e) {
     console.log(e.target.value);
+  }
+
+  getLocalVars(): void {
+    console.log(`${this.inputName} - ${this.inputPassword}`);
   }
 }

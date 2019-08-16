@@ -1,10 +1,26 @@
 <div class="user-login">
   <form action="">
     <span>Login: </span>
-    <input type="text" #userInputLogin (input)="inputChange($event)">
+    <input
+            name="name"
+            type="text"
+            #userInputLogin
+            (input)="getLocalVars()"
+            [(ngModel)]="inputName"
+    >
+    <br>
     <span>Password: </span>
-    <input type="text" #userInputPassword (input)="inputChange($event)">
-    <button (ngSubmit)="submit($event)">Submit</button>
-    <span>{{userInputLogin.value}} - {{userInputPassword.value}}</span>
+    <input
+            name="password"
+            type="password"
+            #userInputPassword
+            (input)="getLocalVars()"
+            [(ngModel)]="inputPassword">
+    <button
+            (click)="getLocalVars()">
+                Submit
+    </button>
+    <p>{{userInputLogin.value}} - {{userInputPassword.value}}</p>
+    <p>{{inputName}} - {{inputPassword}}</p>
   </form>
 </div>
