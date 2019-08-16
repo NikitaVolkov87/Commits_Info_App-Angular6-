@@ -1,28 +1,55 @@
 import { Component, OnInit } from '@angular/core';
 
+import { CommitsService } from '../../_services/commits.service';
+
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.css']
+    selector: 'app-user-login',
+    templateUrl: './user-login.component.html',
+    styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
-  inputName: string = 'enter name';
-  inputPassword: string = 'enter pass';
+    private userName: string = '';
+    private userPassword: string;
+    private userLoggedIn: boolean;
 
-  constructor() { }
+    constructor(
+        public commitsService: CommitsService,
+    ) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.checkIfUserLoggedIn();
+    }
 
-  inputChange(e) {
-    console.log(e.target.value);
-  }
+    submitLogin(): void {
+        if (this.userName.length) {
+            this.getUserInfo();
+            this.userLoggedIn = true;
+            document.cookie = `userName=${this.userName}; max-age=3600`;
+        }
+    }
 
-  submit(e) {
-    console.log(e.target.value);
-  }
+    checkIfUserLoggedIn(): void {
+        if ( document.cookie.includes('userName') ) {
+            this.userName = this.commitsService.getCookie('userName');
+            this.getUserInfo();
+            this.userLoggedIn = true;
+        } else {
+            this.userLoggedIn = false;
+        }
+    }
 
-  getLocalVars(): void {
-    console.log(`${this.inputName} - ${this.inputPassword}`);
-  }
+    logout(): void {
+        this.userName = '';
+        this.userPassword = '';
+        this.userLoggedIn = false;
+        document.cookie = `userName=${this.userName}; max-age=0`;
+    }
+
+    getUserInfo(): void {
+        this.commitsService.getUser(this.userName).subscribe(answer => {
+            console.log( answer );
+        },error => {
+            console.log( error );
+        });
+    }
 }

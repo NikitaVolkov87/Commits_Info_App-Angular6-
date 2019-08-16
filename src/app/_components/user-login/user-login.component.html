@@ -1,26 +1,35 @@
 <div class="user-login">
-  <form action="">
-    <span>Login: </span>
-    <input
+    <form action="" *ngIf="!userLoggedIn">
+        <span>Login: </span>
+        <input
             name="name"
             type="text"
-            #userInputLogin
-            (input)="getLocalVars()"
-            [(ngModel)]="inputName"
-    >
-    <br>
-    <span>Password: </span>
-    <input
+            placeholder="enter user name"
+            (focus)="$event.target.select()"
+            [(ngModel)]="userName"
+        >
+        <br>
+        <span>Password: </span>
+        <input
             name="password"
             type="password"
-            #userInputPassword
-            (input)="getLocalVars()"
-            [(ngModel)]="inputPassword">
-    <button
-            (click)="getLocalVars()">
+            placeholder="enter user password"
+            (focus)="$event.target.select()"
+            [(ngModel)]="userPassword"
+        >
+        <button
+            (click)="submitLogin()">
                 Submit
-    </button>
-    <p>{{userInputLogin.value}} - {{userInputPassword.value}}</p>
-    <p>{{inputName}} - {{inputPassword}}</p>
-  </form>
+        </button>
+    </form>
+    <div class="user-loggedIn" *ngIf="userLoggedIn">
+        <p>
+            Hi, {{userName}}!
+        </p>
+        <p
+            class="user-logout"
+            (click)="logout()">
+                Logout
+        </p>
+    </div>
 </div>
