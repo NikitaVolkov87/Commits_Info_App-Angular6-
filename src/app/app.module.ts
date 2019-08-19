@@ -9,6 +9,7 @@ import { AppComponent }           from './_components/app.component';
 import { CommitsComponent }       from './_components/commits/commits.component';
 import { CommitDetailComponent }  from './_components/commit-detail/commit-detail.component';
 import { UserLoginComponent }     from './_components/user-login/user-login.component';
+import { LoaderComponent }        from './_components/loader/loader.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { UserLoginComponent }     from './_components/user-login/user-login.comp
     AppComponent,
     CommitsComponent,
     CommitDetailComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    LoaderComponent
   ],
   bootstrap: [ AppComponent ]
 })
