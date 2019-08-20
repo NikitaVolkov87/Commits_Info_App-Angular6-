@@ -1,5 +1,5 @@
 <div class="user-login">
-    <app-loader></app-loader>
+    <app-loader *ngIf="loader"></app-loader>
     <form action="" *ngIf="!userLoggedIn">
         <span>Login: </span>
         <input
@@ -7,7 +7,7 @@
             type="text"
             placeholder="enter user name"
             (focus)="$event.target.select()"
-            [(ngModel)]="userName"
+            [(ngModel)]="userLogin"
         >
         <br>
         <span>Password: </span>
@@ -33,10 +33,4 @@
                 Logout
         </p>
     </div>
-    <p (click)="t1()">1</p>
-    <p (click)="t2()">2</p>
-    <p (click)="t3()">3</p>
-    <p (click)="t4()">4</p>
-    <p (click)="t5()">5</p>
-    <p (click)="t6()">6</p>
 </div>

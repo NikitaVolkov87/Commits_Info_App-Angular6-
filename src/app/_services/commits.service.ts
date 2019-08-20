@@ -33,7 +33,7 @@ export class CommitsService {
         let params = new HttpParams()
             .set('per_page', '10')
             .set('page', '1');
-        if (this.token) { headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`) }
+        if (this.token) headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
         if (url) {
             requestUrl = url;
             params = null;
@@ -93,8 +93,45 @@ export class CommitsService {
 
     getUser(userName: string): Observable<any> {
         const url = `${this.urlDomain}/users/${userName}`;
-        let headers: any = null;
-        if (this.token) { headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`) }
-        return this.http.get( url, {headers, observe: 'response'});
+
+        let headers = {};
+        if (this.token) headers['Authorization'] = `Bearer ${this.token}`;
+
+        return this.http.get( url, { headers: headers, observe: 'response' } );
+    }
+
+    getRequestExample(userName: string): Observable<any> {
+        const url = `${this.urlDomain}/users/${userName}`;
+
+        const headers = {
+            head1: 'ok',
+            header2: 'ok'
+        };
+        if (this.token) headers['Authorization'] = `Bearer ${this.token}`;
+
+        const params = {
+            test1: 'ok',
+            test2: 'ok',
+            test3: 'ok'
+        };
+
+        return this.http.get( url, {params: params, headers: headers, observe: 'response' } );
+    }
+
+    postRequestExample(userName: string): Observable<any> {
+        const url = `${this.urlDomain}/users/${userName}`;
+
+        const headers = {
+            head1: 'ok',
+            header2: 'ok'
+        };
+
+        const params = {
+            test1: 'ok',
+            test2: 'ok',
+            test3: 'ok'
+        };
+
+        return this.http.post( url, params,{headers: headers, observe: 'response' } );
     }
 }
