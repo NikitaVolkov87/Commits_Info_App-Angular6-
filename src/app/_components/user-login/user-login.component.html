@@ -1,5 +1,6 @@
 <div class="user-login">
     <app-loader *ngIf="loader"></app-loader>
+    <app-notificator *ngIf="notification" [notification]="notification"></app-notificator>
     <form action="" *ngIf="!userLoggedIn">
         <span>Login: </span>
         <input
@@ -33,4 +34,7 @@
                 Logout
         </p>
     </div>
+    <p (click)="messageCreate()">message</p>
+    <p (click)="check()">check</p>
+    <p (click)="check2()">check 2</p>
 </div>

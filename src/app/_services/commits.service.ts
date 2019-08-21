@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Links } from './../_misc/interfaces';
+import {Links, UserData} from './../_misc/interfaces';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -91,7 +91,7 @@ export class CommitsService {
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
-    getUser(userName: string): Observable<any> {
+    getUser(userName: string): Observable<UserData> {
         const url = `${this.urlDomain}/users/${userName}`;
 
         let headers = {};
@@ -100,7 +100,7 @@ export class CommitsService {
         return this.http.get( url, { headers: headers, observe: 'response' } );
     }
 
-    getRequestExample(userName: string): Observable<any> {
+    getRequestExample(userName: string): Observable<UserData> {
         const url = `${this.urlDomain}/users/${userName}`;
 
         const headers = {
@@ -118,7 +118,7 @@ export class CommitsService {
         return this.http.get( url, {params: params, headers: headers, observe: 'response' } );
     }
 
-    postRequestExample(userName: string): Observable<any> {
+    postRequestExample(userName: string): Observable<UserData> {
         const url = `${this.urlDomain}/users/${userName}`;
 
         const headers = {

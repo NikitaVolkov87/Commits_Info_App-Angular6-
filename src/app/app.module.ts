@@ -10,22 +10,24 @@ import { CommitsComponent }       from './_components/commits/commits.component'
 import { CommitDetailComponent }  from './_components/commit-detail/commit-detail.component';
 import { UserLoginComponent }     from './_components/user-login/user-login.component';
 import { LoaderComponent }        from './_components/loader/loader.component';
+import { NotificatorComponent }   from './_components/notificator/notificator.component';
 
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-  ],
-  declarations: [
-    AppComponent,
-    CommitsComponent,
-    CommitDetailComponent,
-    UserLoginComponent,
-    LoaderComponent
-  ],
-  bootstrap: [ AppComponent ]
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+    ],
+    declarations: [
+        AppComponent,
+        CommitsComponent,
+        CommitDetailComponent,
+        UserLoginComponent,
+        LoaderComponent,
+        NotificatorComponent
+    ],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule { }
