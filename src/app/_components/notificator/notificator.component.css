@@ -1,5 +1,17 @@
 .notificator {
     position: fixed;
     left: 50%;
-    background-color: bisque;
+    background-color: green;
+    top: -20%;
+    opacity: 0;
+    transition: top .5s, opacity .5s, background-color .5s;
+}
+
+.notificator.warn {
+    background-color: red;
+}
+
+.show {
+    top: 5%;
+    opacity: 1;
 }

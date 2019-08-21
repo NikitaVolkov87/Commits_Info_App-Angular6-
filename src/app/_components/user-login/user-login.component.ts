@@ -3,7 +3,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { CommitsService } from '../../_services/commits.service';
 import { NotificatorComponent } from '../notificator/notificator.component';
 
-import { UserData, Notification } from '../../_misc/interfaces';
+import { UserData } from '../../_misc/interfaces';
 
 @Component({
     selector: 'app-user-login',
@@ -12,12 +12,11 @@ import { UserData, Notification } from '../../_misc/interfaces';
     providers: [NotificatorComponent]
 })
 export class UserLoginComponent implements OnInit {
-    private userLogin: string;
+    private userLogin: string = '';
     private userPassword: string;
     private userLoggedIn: boolean;
     private userName: string;
     public loader: boolean = false;
-    public notification: Notification;
 
     @ViewChild(NotificatorComponent) notificator: NotificatorComponent;
 
@@ -73,21 +72,11 @@ export class UserLoginComponent implements OnInit {
         }
     }
 
-    messageCreate(): void {
-        this.notification = {
-            isWarn: false,
-            text: {
-                line1: 'line 1 ok',
-                line2: 'line 2 also ok'
-            }
-        };
-    }
-
-    check(): void {
-        console.log(this.notification);
+    check1(): void {
+        this.notificator.show(true, 'test 1 passed');
     }
 
     check2(): void {
-        this.notificator.test(true, 'test 1 passed');
+        this.notificator.show(false, 'test 2 passed', 'test 3 passed');
     }
 }
