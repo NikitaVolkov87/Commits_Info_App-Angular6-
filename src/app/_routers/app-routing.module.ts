@@ -5,7 +5,7 @@ import { CommitsComponent }       from '../_components/commits/commits.component
 import { CommitDetailComponent }  from '../_components/commit-detail/commit-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/commits', pathMatch: 'full' },
+  { path: '', redirectTo: '', pathMatch: 'full' },
   { path: 'commits', component: CommitsComponent },
   { path: 'commits/:hash', component: CommitDetailComponent }
 ];

@@ -1,4 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { CommitsService } from '../../_services/commits.service';
 import { NotificatorComponent } from '../notificator/notificator.component';
@@ -21,7 +23,8 @@ export class UserLoginComponent implements OnInit {
     @ViewChild(NotificatorComponent) notificator: NotificatorComponent;
 
     constructor(
-        public commitsService: CommitsService
+        public commitsService: CommitsService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -29,8 +32,12 @@ export class UserLoginComponent implements OnInit {
     }
 
     submitLogin(): void {
+        console.log(this.userLogin);
         if (this.userLogin.length) {
             this.getUser();
+        } else {
+            this.notificator.show('Enter login, please');
+            // this.router.navigate(['/']);
         }
     }
 
@@ -40,6 +47,7 @@ export class UserLoginComponent implements OnInit {
             this.getUser();
         } else {
             this.userLoggedIn = false;
+            this.router.navigate(['/']);
         }
     }
 
@@ -48,6 +56,7 @@ export class UserLoginComponent implements OnInit {
         this.userPassword = '';
         this.userLoggedIn = false;
         document.cookie = `userLogin=${this.userLogin}; max-age=0`;
+        this.router.navigate(['/']);
     }
 
     getUser(): void {
@@ -67,16 +76,18 @@ export class UserLoginComponent implements OnInit {
             document.cookie = `userLogin=${this.userLogin}; max-age=3600`;
             console.log('user loaded; user name - ' + userData.body.name);
             this.userName = userData.body.name || this.userLogin;
+            this.router.navigate(['/commits']);
         } else {
-            console.log('user not found');
+            this.notificator.show('User login error', userData.statusText, -1);
+            // this.router.navigate(['/']);
         }
     }
 
     check1(): void {
-        this.notificator.show(true, 'test 1 passed');
+        this.notificator.show('test 1 passed', null, 1);
     }
 
     check2(): void {
-        this.notificator.show(false, 'test 2 passed', 'test 3 passed');
+        this.notificator.show('test 2 passed', 'test 3 passed', -1);
     }
 }

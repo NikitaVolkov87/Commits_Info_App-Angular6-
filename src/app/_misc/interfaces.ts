@@ -17,7 +17,7 @@ export class UserData {
 }
 
 export class Notification {
-    isWarn: boolean;
+    level: number;
     text: {
         line1: string;
         line2?: string;

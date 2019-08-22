@@ -1,14 +1,19 @@
 .notificator {
     position: fixed;
     left: 50%;
-    background-color: green;
+    color: white;
+    background-color: grey;
     top: -20%;
     opacity: 0;
     transition: top .5s, opacity .5s, background-color .5s;
 }
 
-.notificator.warn {
+.notificator.error {
     background-color: red;
+}
+
+.notificator.success {
+    background-color: green;
 }
 
 .show {

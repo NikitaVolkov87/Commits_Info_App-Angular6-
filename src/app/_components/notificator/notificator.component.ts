@@ -9,7 +9,7 @@ import { Notification } from '../../_misc/interfaces';
 })
 export class NotificatorComponent implements OnInit {
     public notification: Notification = {
-        isWarn: false,
+        level: 0,
         text: {
             line1: ''
         }
@@ -21,10 +21,9 @@ export class NotificatorComponent implements OnInit {
 
     ngOnInit() {}
 
-    show(isWarn: boolean, line1: string, line2: string = ''): void {
-        console.log('test ok');
+    show(line1: string, line2: string = '', level: number = 0): void {
         this.notification = {
-            isWarn: isWarn,
+            level: level,
             text: {
                 line1: line1,
                 line2: line2
@@ -33,7 +32,6 @@ export class NotificatorComponent implements OnInit {
         this.showing = true;
         if (this.timerId) clearTimeout(this.timerId);
         this.timerId = setTimeout(()=> {
-            // this.notification.text.line1 = null;
             this.showing = false;
         }, 2000);
     }

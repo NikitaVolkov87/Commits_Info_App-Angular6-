@@ -1,4 +1,4 @@
-<div class="notificator" [ngClass]="{'show' : showing, 'warn' : notification.isWarn}">
+<div class="notificator" [ngClass]="{'show' : showing, 'error' : notification.level == -1, 'success' : notification.level == 1}">
     <p>{{notification.text.line1}}</p>
     <p *ngIf="notification.text.line2">{{notification.text.line2}}</p>
 </div>
