@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { CommitsService } from '../../_services/commits.service';
 import { NotificatorComponent } from '../notificator/notificator.component';
 
-import { UserData } from '../../_misc/interfaces';
+import {urlQuery, UserData} from '../../_misc/interfaces';
 
 @Component({
     selector: 'app-user-login',
@@ -24,7 +24,8 @@ export class UserLoginComponent implements OnInit {
 
     constructor(
         public commitsService: CommitsService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
@@ -37,7 +38,6 @@ export class UserLoginComponent implements OnInit {
             this.getUser();
         } else {
             this.notificator.show('Enter login, please');
-            // this.router.navigate(['/']);
         }
     }
 
@@ -76,10 +76,11 @@ export class UserLoginComponent implements OnInit {
             document.cookie = `userLogin=${this.userLogin}; max-age=3600`;
             console.log('user loaded; user name - ' + userData.body.name);
             this.userName = userData.body.name || this.userLogin;
-            this.router.navigate(['/commits']);
+            const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
+            console.log(this.route);
+            this.router.navigate(['/commits'], { queryParams: urlQuery });
         } else {
             this.notificator.show('User login error', userData.statusText, -1);
-            // this.router.navigate(['/']);
         }
     }
 

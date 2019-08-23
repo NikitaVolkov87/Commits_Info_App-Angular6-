@@ -64,7 +64,7 @@ export class CommitsService {
 
     saveUserLS(): void {
         localStorage.setItem('user', JSON.stringify({userName: this.userName, userRepo: this.userRepo}));
-        this.commitsUrl = `https://api.github.com/repos/${this.userName}/${this.userRepo}/commits`;
+        this.commitsUrl = `${this.urlDomain}/repos/${this.userName}/${this.userRepo}/commits`;
     }
 
     getUserLS(): void {

@@ -13,7 +13,8 @@ export class UserData {
     body: {
         avatar_url?: string;
         name?: string;
-    }
+    };
+    statusText: string;
 }
 
 export class Notification {
@@ -22,4 +23,11 @@ export class Notification {
         line1: string;
         line2?: string;
     }
+}
+
+export class urlQuery {
+    repoUser: string;
+    repoName: string;
+    repoPer_page?: string;
+    repoPage?: string;
 }
