@@ -31,3 +31,8 @@ export class urlQuery {
     repoPer_page?: string;
     repoPage?: string;
 }
+
+export class urlToAccess {
+    urlPathname: string;
+    urlQuery: string
+}

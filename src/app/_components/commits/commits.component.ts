@@ -28,11 +28,10 @@ export class CommitsComponent implements OnInit {
         this.commits = JSON.parse(sessionStorage.getItem('commits'));
         this.links = this.commitsService.links;
 
-        console.log((<any>this.route.queryParams)._value);
-        this.commitsQueryRead();
+        this.urlQueryRead();
     }
 
-    commitsQueryRead(): void {
+    urlQueryRead(): void {
         const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
         if ( urlQuery.repoUser && urlQuery.repoName ) {
             this.commitsService.userName = urlQuery.repoUser;
@@ -53,7 +52,6 @@ export class CommitsComponent implements OnInit {
             this.errorMessage = null;
             let links: string = answer.headers.get('Link');
             this.links = this.commitsService.links = this.commitsService.linkTransformer(links);
-            console.log(this.links);
             this.commits = answer.body;
             sessionStorage.setItem('commits', JSON.stringify(answer.body));
             this.commitsService.page = answer.url.split('&page=')[1];

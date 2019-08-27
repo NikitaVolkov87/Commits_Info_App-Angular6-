@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { CommitsService } from '../../_services/commits.service';
 import { NotificatorComponent } from '../notificator/notificator.component';
 
-import {urlQuery, UserData} from '../../_misc/interfaces';
+import { urlQuery, urlToAccess, UserData } from '../../_misc/interfaces';
 
 @Component({
     selector: 'app-user-login',
@@ -33,7 +33,6 @@ export class UserLoginComponent implements OnInit {
     }
 
     submitLogin(): void {
-        console.log(this.userLogin);
         if (this.userLogin.length) {
             this.getUser();
         } else {
@@ -47,7 +46,17 @@ export class UserLoginComponent implements OnInit {
             this.getUser();
         } else {
             this.userLoggedIn = false;
+            if ( window.location.pathname.length > 1 ) {
+                this.saveUrlToAccessAfterLogin();
+            }
             this.router.navigate(['/']);
+        }
+    }
+
+    saveUrlToAccessAfterLogin(): void {
+        this.commitsService.initialPath = {
+            urlPathname: window.location.pathname,
+            urlQuery: window.location.search
         }
     }
 
@@ -70,17 +79,24 @@ export class UserLoginComponent implements OnInit {
 
     getUserGotData(userData: UserData): void {
         this.loader = false;
-        console.log(userData);
         if (userData.ok) {
             this.userLoggedIn = true;
-            document.cookie = `userLogin=${this.userLogin}; max-age=3600`;
-            console.log('user loaded; user name - ' + userData.body.name);
+            document.cookie = `userLogin=${this.userLogin}; max-age=3600; path=/`;
             this.userName = userData.body.name || this.userLogin;
-            const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
-            console.log(this.route);
-            this.router.navigate(['/commits'], { queryParams: urlQuery });
+            this.redirectToQuariedUrl();
         } else {
             this.notificator.show('User login error', userData.statusText, -1);
+        }
+    }
+
+    redirectToQuariedUrl(): void {
+        const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
+        if ( this.commitsService.initialPath && this.commitsService.initialPath.urlPathname ) {
+            this.router.navigateByUrl(this.commitsService.initialPath.urlPathname + this.commitsService.initialPath.urlQuery, { queryParams: {} } );
+        } else if ( window.location.pathname.length > 1 ) {
+            this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery });
+        } else {
+            this.router.navigate(['/commits'], { queryParams: urlQuery });
         }
     }
 

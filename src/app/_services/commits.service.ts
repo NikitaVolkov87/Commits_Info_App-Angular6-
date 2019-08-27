@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {Links, UserData} from './../_misc/interfaces';
+import {Links, UserData, urlToAccess} from './../_misc/interfaces';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,6 +19,7 @@ export class CommitsService {
     public commitHash: string;
     public page: string;
     public urlDomain: string = 'https://api.github.com';
+    public initialPath: urlToAccess;
 
     private token: string = '';
     private commitsUrl: string;
