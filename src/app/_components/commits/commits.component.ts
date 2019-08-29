@@ -28,20 +28,25 @@ export class CommitsComponent implements OnInit {
         this.commits = JSON.parse(sessionStorage.getItem('commits'));
         this.links = this.commitsService.links;
 
-        this.urlQueryRead();
+        const url = this.urlQueryRead(['repoUser', 'repoName']);
+        if (url) this.getCommits(url);
     }
 
-    urlQueryRead(): void {
+    urlQueryRead( queryItems?: string[] ): string {
         const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
-        if ( urlQuery.repoUser && urlQuery.repoName ) {
-            this.commitsService.userName = urlQuery.repoUser;
-            this.commitsService.userRepo = urlQuery.repoName;
+        for (const item of queryItems) {
+            console.log(item);
+            if (urlQuery[item]) {
+                this.commitsService[item] = urlQuery[item];
+            }
+        }
+        if ( queryItems.length ) {
+            // this.commitsService.userName = urlQuery.repoUser;
+            // this.commitsService.userRepo = urlQuery.repoName;
             this.commitsService.saveUserLS();
             let url: string = '';
-            if ( urlQuery.repoPage ) {
-                url = `${this.commitsService.urlDomain}/repos/${urlQuery.repoUser}/${urlQuery.repoName}/commits?per_page=10&page=${urlQuery.repoPage}`;
-            }
-            this.getCommits(url);
+            url = `${this.commitsService.urlDomain}/repos/${urlQuery[queryItems[0]]}/${urlQuery[queryItems[1]]}/commits?per_page=10&page=${urlQuery[queryItems[2]]}`;
+            return url;
         }
     }
 
