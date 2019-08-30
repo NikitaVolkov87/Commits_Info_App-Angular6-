@@ -24,34 +24,39 @@ export class CommitsComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.commitsService.getUserLS();
-        this.commits = JSON.parse(sessionStorage.getItem('commits'));
+        // this.commitsService.getUserLS();
+        // this.commits = JSON.parse(sessionStorage.getItem('commits'));
         this.links = this.commitsService.links;
 
-        const url = this.urlQueryRead(['repoUser', 'repoName']);
+        const url = this.urlQueryRead(['repoUser', 'repoName', 'repoPage']);
         if (url) this.getCommits(url);
+        console.log('inited');
+    }
+
+    ngOnDestroy() {
+        this.commitsService.links = null;
+        console.log('commit comp destroyed');
     }
 
     urlQueryRead( queryItems?: string[] ): string {
-        const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
-        for (const item of queryItems) {
-            console.log(item);
-            if (urlQuery[item]) {
-                this.commitsService[item] = urlQuery[item];
+        // const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
+        const urlQuery: object = this.commitsService.getUrlQuery();
+        if ( urlQuery[queryItems[0]] && urlQuery[queryItems[1]] ) {
+            for (const item of queryItems) {
+                if (urlQuery[item]) {
+                    this.commitsService[item] = urlQuery[item];
+                }
             }
-        }
-        if ( queryItems.length ) {
-            // this.commitsService.userName = urlQuery.repoUser;
-            // this.commitsService.userRepo = urlQuery.repoName;
             this.commitsService.saveUserLS();
-            let url: string = '';
-            url = `${this.commitsService.urlDomain}/repos/${urlQuery[queryItems[0]]}/${urlQuery[queryItems[1]]}/commits?per_page=10&page=${urlQuery[queryItems[2]]}`;
+            const url: string = `${this.commitsService.urlDomain}/repos/${this.commitsService.repoUser}/${this.commitsService.repoName}/commits?per_page=10&page=${this.commitsService.repoPage || 1}`;
             return url;
         }
     }
 
     getCommits(url?: string): void {
         // this.inputEl1.nativeElement.focus();
+        this.commitsService.repoPage = url ? url.split('&page=')[1] : '1';
+        this.syncRoute();
         this.commitsService.getCommits(url).subscribe( answer => {
             this.commits = null;
             this.errorMessage = null;
@@ -59,8 +64,6 @@ export class CommitsComponent implements OnInit {
             this.links = this.commitsService.links = this.commitsService.linkTransformer(links);
             this.commits = answer.body;
             sessionStorage.setItem('commits', JSON.stringify(answer.body));
-            this.commitsService.page = answer.url.split('&page=')[1];
-            this.syncRoute();
         }, error => {
             this.commits = null;
             this.links = null;
@@ -73,11 +76,11 @@ export class CommitsComponent implements OnInit {
 
     syncRoute(): void {
         const urlQuery: urlQuery = {
-            repoUser: this.commitsService.userName,
-            repoName: this.commitsService.userRepo,
-            repoPage: this.commitsService.page
+            repoUser: this.commitsService.repoUser,
+            repoName: this.commitsService.repoName,
+            repoPage: this.commitsService.repoPage
         };
-
+        console.log(urlQuery);
         this.router.navigate(['/commits'], { queryParams: urlQuery });
     }
 

@@ -9,7 +9,7 @@
       <div class="user-form__col user-form__col_name-input">
         <input class="user-form__elem_input user-form__elem_user-name-input"
                #input1
-               [(ngModel)]="commitsService.userName" 
+               [(ngModel)]="commitsService.repoUser" 
                (ngModelChange)="commitsService.saveUserLS()" 
                (keyup.enter)="input2.focus()" 
                type="text"
@@ -23,7 +23,7 @@
       <div class="user-form__col user-form__col_repo-input">
         <input class="user-form__elem_input user-form__elem_repo-input"
                #input2 
-               [(ngModel)]="commitsService.userRepo" 
+               [(ngModel)]="commitsService.repoName"
                (ngModelChange)="commitsService.saveUserLS()" 
                (keyup.enter)="getCommits()" 
                type="text"
@@ -68,7 +68,7 @@
           (click)="commitsService.commitHash = commit.sha"
            routerLink="/commits/{{commit.sha}}">
           <div class="github__subcol github__subcol_succes_number">
-            <p class="github__link_number">{{(commits.indexOf(commit)+1)+10*(commitsService.page-1)}}. </p>
+            <p class="github__link_number">{{(commits.indexOf(commit)+1)+10*(commitsService.repoPage-1)}}. </p>
           </div>
           <div class="github__subcol github__subcol_succes_item">
             <p class="github__link_text">{{commit.commit.message}}</p>

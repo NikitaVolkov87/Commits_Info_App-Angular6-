@@ -57,7 +57,15 @@ export class UserLoginComponent implements OnInit {
         this.commitsService.initialPath = {
             urlPathname: window.location.pathname,
             urlQuery: window.location.search
-        }
+        };
+        console.log(this.commitsService.initialPath);
+    }
+
+    clearUrlToAccessAfterLogin(): void {
+        this.commitsService.initialPath = {
+            urlPathname: null,
+            urlQuery: null
+        };
     }
 
     logout(): void {
@@ -65,6 +73,7 @@ export class UserLoginComponent implements OnInit {
         this.userPassword = '';
         this.userLoggedIn = false;
         document.cookie = `userLogin=${this.userLogin}; max-age=0`;
+        // this.clearUrlToAccessAfterLogin();
         this.router.navigate(['/']);
     }
 
@@ -91,12 +100,16 @@ export class UserLoginComponent implements OnInit {
 
     redirectToQuariedUrl(): void {
         const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
+        console.log(urlQuery);
         if ( this.commitsService.initialPath && this.commitsService.initialPath.urlPathname ) {
-            this.router.navigateByUrl(this.commitsService.initialPath.urlPathname + this.commitsService.initialPath.urlQuery, { queryParams: {} } );
-        } else if ( window.location.pathname.length > 1 ) {
-            this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery });
+            this.router.navigateByUrl(this.commitsService.initialPath.urlPathname + this.commitsService.initialPath.urlQuery );
+            console.log('redir 1');
+        // } else if ( window.location.pathname.length > 1 ) {
+        //     this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery });
+        //     console.log('redir 2');
         } else {
             this.router.navigate(['/commits'], { queryParams: urlQuery });
+            console.log('redir 3');
         }
     }
 

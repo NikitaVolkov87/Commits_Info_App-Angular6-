@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import {Links, UserData, urlToAccess} from './../_misc/interfaces';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,11 +14,11 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class CommitsService {
 
-    public userName: string = 'thoughtbot';
-    public userRepo: string = 'guides';
+    public repoUser: string = 'thoughtbot';
+    public repoName: string = 'guides';
     public links: Links[];
     public commitHash: string;
-    public page: string;
+    public repoPage: string;
     public urlDomain: string = 'https://api.github.com';
     public initialPath: urlToAccess;
 
@@ -25,7 +26,8 @@ export class CommitsService {
     private commitsUrl: string;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private route: ActivatedRoute,
     ) { }
 
     getCommits(url?: string): Observable<any> {
@@ -64,24 +66,24 @@ export class CommitsService {
     }
 
     saveUserLS(): void {
-        localStorage.setItem('user', JSON.stringify({userName: this.userName, userRepo: this.userRepo}));
-        this.commitsUrl = `${this.urlDomain}/repos/${this.userName}/${this.userRepo}/commits`;
+        localStorage.setItem('user', JSON.stringify({repoUser: this.repoUser, repoName: this.repoName}));
+        this.commitsUrl = `${this.urlDomain}/repos/${this.repoUser}/${this.repoName}/commits`;
     }
 
     getUserLS(): void {
-        const userLS: {userName: string, userRepo: string} = JSON.parse(localStorage.getItem('user'));
+        const userLS: {repoUser: string, repoName: string} = JSON.parse(localStorage.getItem('user'));
         if ( userLS ) {
-            this.userName = userLS.userName;
-            this.userRepo = userLS.userRepo;
+            this.repoUser = userLS.repoUser;
+            this.repoName = userLS.repoName;
         } else {
             this.resetUser();
         }
-        this.commitsUrl = `https://api.github.com/repos/${this.userName}/${this.userRepo}/commits`;
+        this.commitsUrl = `https://api.github.com/repos/${this.repoUser}/${this.repoName}/commits`;
     }
 
     resetUser(): void {
-        this.userName = 'thoughtbot';
-        this.userRepo = 'guides';
+        this.repoUser = 'thoughtbot';
+        this.repoName = 'guides';
         this.saveUserLS();
     }
 
@@ -92,8 +94,8 @@ export class CommitsService {
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
-    getUser(userName: string): Observable<UserData> {
-        const url = `${this.urlDomain}/users/${userName}`;
+    getUser(repoUser: string): Observable<UserData> {
+        const url = `${this.urlDomain}/users/${repoUser}`;
 
         let headers = {};
         if (this.token) headers['Authorization'] = `Bearer ${this.token}`;
@@ -101,8 +103,8 @@ export class CommitsService {
         return this.http.get( url, { headers: headers, observe: 'response' } );
     }
 
-    getRequestExample(userName: string): Observable<UserData> {
-        const url = `${this.urlDomain}/users/${userName}`;
+    getRequestExample(repoUser: string): Observable<UserData> {
+        const url = `${this.urlDomain}/users/${repoUser}`;
 
         const headers = {
             head1: 'ok',
@@ -119,8 +121,8 @@ export class CommitsService {
         return this.http.get( url, {params: params, headers: headers, observe: 'response' } );
     }
 
-    postRequestExample(userName: string): Observable<UserData> {
-        const url = `${this.urlDomain}/users/${userName}`;
+    postRequestExample(repoUser: string): Observable<UserData> {
+        const url = `${this.urlDomain}/users/${repoUser}`;
 
         const headers = {
             head1: 'ok',
@@ -134,5 +136,9 @@ export class CommitsService {
         };
 
         return this.http.post( url, params,{headers: headers, observe: 'response' } );
+    }
+
+    getUrlQuery(): object {
+        return (<any>this.route.queryParams)._value;
     }
 }
