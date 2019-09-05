@@ -57,7 +57,7 @@ export class CommitsComponent implements OnInit {
         // this.inputEl1.nativeElement.focus();
         this.commitsService.repoPage = url ? url.split('&page=')[1] : '1';
         this.syncRoute();
-        this.commitsService.getCommits(url).subscribe( answer => {
+        this.commitsService.getCommits(url || null).subscribe( answer => {
             this.commits = null;
             this.errorMessage = null;
             let links: string = answer.headers.get('Link');

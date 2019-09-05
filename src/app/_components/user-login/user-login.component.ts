@@ -16,7 +16,7 @@ import { urlQuery, urlToAccess, UserData } from '../../_misc/interfaces';
 export class UserLoginComponent implements OnInit {
     private userLogin: string = '';
     private userPassword: string;
-    private userLoggedIn: boolean;
+    public userLoggedIn: boolean;
     private userName: string;
     public loader: boolean = false;
 
