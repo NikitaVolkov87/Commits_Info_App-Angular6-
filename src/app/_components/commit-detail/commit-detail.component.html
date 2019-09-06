@@ -1,30 +1,30 @@
 <div class="block_back-button">
-  <div class="block__container_back-button">
-    <button class="back-button"
-            routerLink="/commits">
-      Go back
-    </button>
-  </div>
+    <div class="block__container_back-button">
+        <button class="back-button"
+                (click)="goBack()">
+            Go back
+        </button>
+    </div>
 </div>
 
 <div class="github" *ngIf="commitDetail || errorMessage">
-  <p class="github__title">Commit details</p>
-  <div class="github__container">
-    <div class="github__row github__row_succes"
-        *ngIf="commitDetail">
-      <div class="github__col github__col_succes"
-           *ngFor="let detailName of commitDetailNames">
-        <h3 class="github__item-title">{{detailName}}</h3>
-        <p class="github__item-text">{{parseObjects(detailName)}}</p>
-      </div>
+    <p class="github__title">Commit details</p>
+    <div class="github__container">
+        <div class="github__row github__row_succes"
+             *ngIf="commitDetail">
+            <div class="github__col github__col_succes"
+                 *ngFor="let detailName of commitDetailNames">
+                <h3 class="github__item-title">{{detailName}}</h3>
+                <p class="github__item-text">{{parseObjects(detailName)}}</p>
+            </div>
+        </div>
+        <div class="github__row github__row_error"
+             *ngIf="errorMessage">
+            <div class="github__col github__col_error">
+                <h2 class="github__error_title">404</h2>
+                <h4 class="github__error_text">{{errorMessage.title}}</h4>
+                <h4 class="github__error_text">{{errorMessage.body}}</h4>
+            </div>
+        </div>
     </div>
-    <div class="github__row github__row_error"
-        *ngIf="errorMessage">
-      <div class="github__col github__col_error">
-        <h2 class="github__error_title">404</h2>
-        <h4 class="github__error_text">{{errorMessage.title}}</h4>
-        <h4 class="github__error_text">{{errorMessage.body}}</h4>
-      </div>
-    </div>
-  </div>
 </div>

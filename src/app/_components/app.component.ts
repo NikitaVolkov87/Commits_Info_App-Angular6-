@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
     title: string = 'Get commit detail app';
     subtitle: string = "built with Angular 6 and it's fully adaptive";
+
+    constructor(private titleService: Title) {}
 
     ngOnInit() {
         sessionStorage.setItem('commits', null);

@@ -39,7 +39,6 @@ export class CommitsComponent implements OnInit {
     }
 
     urlQueryRead( queryItems?: string[] ): string {
-        // const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
         const urlQuery: object = this.commitsService.getUrlQuery();
         if ( urlQuery[queryItems[0]] && urlQuery[queryItems[1]] ) {
             for (const item of queryItems) {
@@ -57,7 +56,8 @@ export class CommitsComponent implements OnInit {
         // this.inputEl1.nativeElement.focus();
         this.commitsService.repoPage = url ? url.split('&page=')[1] : '1';
         this.syncRoute();
-        this.commitsService.getCommits(url || null).subscribe( answer => {
+        console.log('syncRoute ok');
+        this.commitsService.getCommits(url).subscribe( answer => {
             this.commits = null;
             this.errorMessage = null;
             let links: string = answer.headers.get('Link');

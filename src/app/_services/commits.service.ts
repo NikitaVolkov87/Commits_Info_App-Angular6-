@@ -31,6 +31,7 @@ export class CommitsService {
     ) { }
 
     getCommits(url?: string): Observable<any> {
+        console.log('getCommits init');
         let requestUrl: string;
         let headers: any = null;
         let params = new HttpParams()
@@ -41,7 +42,9 @@ export class CommitsService {
             requestUrl = url;
             params = null;
         } else {
+            if ( !this.commitsUrl ) this.getUserLS();
             requestUrl = this.commitsUrl;
+            console.log(this.commitsUrl);
         }
         return this.http.get(requestUrl, {params, headers, observe: 'response'});
     }
@@ -68,6 +71,7 @@ export class CommitsService {
     saveUserLS(): void {
         localStorage.setItem('user', JSON.stringify({repoUser: this.repoUser, repoName: this.repoName}));
         this.commitsUrl = `${this.urlDomain}/repos/${this.repoUser}/${this.repoName}/commits`;
+        console.log( 'saveUserLS() - ', this.commitsUrl);
     }
 
     getUserLS(): void {
@@ -79,6 +83,7 @@ export class CommitsService {
             this.resetUser();
         }
         this.commitsUrl = `https://api.github.com/repos/${this.repoUser}/${this.repoName}/commits`;
+        console.log( 'getUserLS() - ', this.commitsUrl);
     }
 
     resetUser(): void {
@@ -103,7 +108,12 @@ export class CommitsService {
         return this.http.get( url, { headers: headers, observe: 'response' } );
     }
 
-    getRequestExample(repoUser: string): Observable<UserData> {
+    getUrlQuery(): object {
+        return (<any>this.route.queryParams)._value;
+    }
+
+    // examples of api requests
+    /*getRequestExample(repoUser: string): Observable<UserData> {
         const url = `${this.urlDomain}/users/${repoUser}`;
 
         const headers = {
@@ -136,9 +146,5 @@ export class CommitsService {
         };
 
         return this.http.post( url, params,{headers: headers, observe: 'response' } );
-    }
-
-    getUrlQuery(): object {
-        return (<any>this.route.queryParams)._value;
-    }
+    }*/
 }

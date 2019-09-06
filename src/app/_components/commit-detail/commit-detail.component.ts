@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { ErrorMessage } from '../../_misc/interfaces';
 import { CommitsService } from '../../_services/commits.service';
@@ -17,7 +18,8 @@ export class CommitDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private commitsService: CommitsService
+        private commitsService: CommitsService,
+        private location: Location
     ) {}
 
     ngOnInit(): void {
@@ -47,5 +49,10 @@ export class CommitDetailComponent implements OnInit {
     parseObjects(item: string): string {
         let obj: any = this.commitDetail[item];
         return JSON.stringify(obj).replace( /},/g, "\n" ).replace( /{/g, "" );
+    }
+
+    goBack(): void {
+        console.log('back ok');
+        this.location.back();
     }
 }
