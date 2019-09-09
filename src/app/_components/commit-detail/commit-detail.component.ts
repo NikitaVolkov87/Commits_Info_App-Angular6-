@@ -11,7 +11,6 @@ import { CommitsService } from '../../_services/commits.service';
     styleUrls: [ './commit-detail.component.css' ]
 })
 export class CommitDetailComponent implements OnInit {
-
     public commitDetail: any;
     public commitDetailNames: string[] = [];
     public errorMessage: ErrorMessage;
@@ -25,6 +24,7 @@ export class CommitDetailComponent implements OnInit {
     ngOnInit(): void {
         this.commitsService.getUserLS();
         this.getCommitDetail();
+        this.commitsService.setTitle("Commit's details");
     }
 
     getCommitDetail(): void {
@@ -52,7 +52,6 @@ export class CommitDetailComponent implements OnInit {
     }
 
     goBack(): void {
-        console.log('back ok');
         this.location.back();
     }
 }

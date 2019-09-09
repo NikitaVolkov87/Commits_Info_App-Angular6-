@@ -30,6 +30,7 @@ export class UserLoginComponent implements OnInit {
 
     ngOnInit() {
         this.checkIfUserLoggedIn();
+        this.commitsService.setTitle('Log in');
     }
 
     submitLogin(): void {
@@ -58,7 +59,6 @@ export class UserLoginComponent implements OnInit {
             urlPathname: window.location.pathname,
             urlQuery: window.location.search
         };
-        console.log(this.commitsService.initialPath);
     }
 
     clearUrlToAccessAfterLogin(): void {
@@ -75,6 +75,7 @@ export class UserLoginComponent implements OnInit {
         document.cookie = `userLogin=${this.userLogin}; max-age=0`;
         // this.clearUrlToAccessAfterLogin();
         this.router.navigate(['/']);
+        this.commitsService.resetTitle();
     }
 
     getUser(): void {
@@ -100,24 +101,17 @@ export class UserLoginComponent implements OnInit {
 
     redirectToQuariedUrl(): void {
         const urlQuery: urlQuery | object = this.commitsService.getUrlQuery(); // const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
-        console.log(urlQuery);
         if ( this.commitsService.initialPath && this.commitsService.initialPath.urlPathname ) {
             this.router.navigateByUrl(this.commitsService.initialPath.urlPathname + this.commitsService.initialPath.urlQuery );
-            console.log('redir 1');
         } else if ( window.location.pathname.length > 1 ) {
             this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery, skipLocationChange: true });
-            console.log('redir 2');
         } else {
             this.router.navigate(['/commits'], { queryParams: urlQuery });
-            console.log('redir 3');
         }
     }
 
     check1(): void {
         this.notificator.show('test 1 passed', null, 1);
-        console.log( 'serialize: ', this.router.parseUrl('http://localhost:4222/commits?repoUser=NikitaVolkov87&repoName=Commits_Info_App-Angular6-&repoPage=3'));
-        console.log( 'serialize: ', this.router.parseUrl('//localhost:4222/commits?repoUser=NikitaVolkov87&repoName=Commits_Info_App-Angular6-&repoPage=3'));
-        console.log( 'serialize: ', this.router.parseUrl('/commits?repoUser=NikitaVolkov87&repoName=Commits_Info_App-Angular6-&repoPage=3'));
     }
 
     check2(): void {

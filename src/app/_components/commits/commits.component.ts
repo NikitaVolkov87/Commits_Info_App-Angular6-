@@ -30,12 +30,11 @@ export class CommitsComponent implements OnInit {
 
         const url = this.urlQueryRead(['repoUser', 'repoName', 'repoPage']);
         if (url) this.getCommits(url);
-        console.log('inited');
+        this.handlePageTitle();
     }
 
     ngOnDestroy() {
         this.commitsService.links = null;
-        console.log('commit comp destroyed');
     }
 
     urlQueryRead( queryItems?: string[] ): string {
@@ -56,7 +55,6 @@ export class CommitsComponent implements OnInit {
         // this.inputEl1.nativeElement.focus();
         this.commitsService.repoPage = url ? url.split('&page=')[1] : '1';
         this.syncRoute();
-        console.log('syncRoute ok');
         this.commitsService.getCommits(url).subscribe( answer => {
             this.commits = null;
             this.errorMessage = null;
@@ -64,6 +62,7 @@ export class CommitsComponent implements OnInit {
             this.links = this.commitsService.links = this.commitsService.linkTransformer(links);
             this.commits = answer.body;
             sessionStorage.setItem('commits', JSON.stringify(answer.body));
+            this.handlePageTitle();
         }, error => {
             this.commits = null;
             this.links = null;
@@ -80,8 +79,16 @@ export class CommitsComponent implements OnInit {
             repoName: this.commitsService.repoName,
             repoPage: this.commitsService.repoPage
         };
-        console.log(urlQuery);
         this.router.navigate(['/commits'], { queryParams: urlQuery });
+    }
+
+    handlePageTitle(): void {
+        const titles = ['Enter user & repository', 'Commits browser'];
+        if ( this.commitsService.getUrlQuery()['repoUser'] ) {
+            this.commitsService.setTitle(titles[1]);
+        } else {
+            this.commitsService.setTitle(titles[0]);
+        }
     }
 
     /*setFocusOnInputUserRepo() {

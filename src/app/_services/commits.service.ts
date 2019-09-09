@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import {Links, UserData, urlToAccess} from './../_misc/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { Title } from '@angular/platform-browser';
+
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -28,10 +30,10 @@ export class CommitsService {
     constructor(
         private http: HttpClient,
         private route: ActivatedRoute,
+        private titleService: Title
     ) { }
 
     getCommits(url?: string): Observable<any> {
-        console.log('getCommits init');
         let requestUrl: string;
         let headers: any = null;
         let params = new HttpParams()
@@ -44,7 +46,6 @@ export class CommitsService {
         } else {
             if ( !this.commitsUrl ) this.getUserLS();
             requestUrl = this.commitsUrl;
-            console.log(this.commitsUrl);
         }
         return this.http.get(requestUrl, {params, headers, observe: 'response'});
     }
@@ -71,7 +72,6 @@ export class CommitsService {
     saveUserLS(): void {
         localStorage.setItem('user', JSON.stringify({repoUser: this.repoUser, repoName: this.repoName}));
         this.commitsUrl = `${this.urlDomain}/repos/${this.repoUser}/${this.repoName}/commits`;
-        console.log( 'saveUserLS() - ', this.commitsUrl);
     }
 
     getUserLS(): void {
@@ -83,7 +83,6 @@ export class CommitsService {
             this.resetUser();
         }
         this.commitsUrl = `https://api.github.com/repos/${this.repoUser}/${this.repoName}/commits`;
-        console.log( 'getUserLS() - ', this.commitsUrl);
     }
 
     resetUser(): void {
@@ -110,6 +109,15 @@ export class CommitsService {
 
     getUrlQuery(): object {
         return (<any>this.route.queryParams)._value;
+    }
+
+    public setTitle( newTitle: string) {
+        const titleSuffix = ' | Commit App';
+        this.titleService.setTitle( newTitle + titleSuffix );
+    }
+
+    public resetTitle() {
+        this.titleService.setTitle('GitHub Commits App');
     }
 
     // examples of api requests
