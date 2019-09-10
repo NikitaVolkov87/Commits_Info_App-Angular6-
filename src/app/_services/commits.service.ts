@@ -23,9 +23,9 @@ export class CommitsService {
     public repoPage: string;
     public urlDomain: string = 'https://api.github.com';
     public initialPath: urlToAccess;
+    public commitsUrl: string;
 
     private token: string = '';
-    private commitsUrl: string;
 
     constructor(
         private http: HttpClient,
@@ -71,7 +71,7 @@ export class CommitsService {
 
     saveUserLS(): void {
         localStorage.setItem('user', JSON.stringify({repoUser: this.repoUser, repoName: this.repoName}));
-        this.commitsUrl = `${this.urlDomain}/repos/${this.repoUser}/${this.repoName}/commits`;
+        this.setInitialCommitsUrl();
     }
 
     getUserLS(): void {
@@ -82,7 +82,11 @@ export class CommitsService {
         } else {
             this.resetUser();
         }
-        this.commitsUrl = `https://api.github.com/repos/${this.repoUser}/${this.repoName}/commits`;
+        this.setInitialCommitsUrl();
+    }
+
+    setInitialCommitsUrl(): void {
+        this.commitsUrl = `${this.urlDomain}/repos/${this.repoUser}/${this.repoName}/commits`;
     }
 
     resetUser(): void {

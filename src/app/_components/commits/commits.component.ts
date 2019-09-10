@@ -24,13 +24,13 @@ export class CommitsComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.commitsService.getUserLS();
+        this.handlePageTitle();
+        this.commitsService.getUserLS();
         // this.commits = JSON.parse(sessionStorage.getItem('commits'));
         this.links = this.commitsService.links;
 
         const url = this.urlQueryRead(['repoUser', 'repoName', 'repoPage']);
         if (url) this.getCommits(url);
-        this.handlePageTitle();
     }
 
     ngOnDestroy() {
@@ -46,7 +46,7 @@ export class CommitsComponent implements OnInit {
                 }
             }
             this.commitsService.saveUserLS();
-            const url: string = `${this.commitsService.urlDomain}/repos/${this.commitsService.repoUser}/${this.commitsService.repoName}/commits?per_page=10&page=${this.commitsService.repoPage || 1}`;
+            const url: string = `${this.commitsService.commitsUrl}?per_page=10&page=${this.commitsService.repoPage || 1}`;
             return url;
         }
     }
