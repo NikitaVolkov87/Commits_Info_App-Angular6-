@@ -100,7 +100,7 @@ export class UserLoginComponent implements OnInit {
     }
 
     redirectToQuariedUrl(): void {
-        const urlQuery: urlQuery | object = this.commitsService.getUrlQuery(); // const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
+        const urlQuery: urlQuery | object = this.commitsService.getUrlQueryAsObj(); // const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
         if ( this.commitsService.initialPath && this.commitsService.initialPath.urlPathname ) {
             this.router.navigateByUrl(this.commitsService.initialPath.urlPathname + this.commitsService.initialPath.urlQuery );
         } else if ( window.location.pathname.length > 1 ) {

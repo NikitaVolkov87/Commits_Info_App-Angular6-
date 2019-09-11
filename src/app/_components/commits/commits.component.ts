@@ -1,8 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 
 import { Links, ErrorMessage, urlQuery } from '../../_misc/interfaces';
 import { CommitsService } from '../../_services/commits.service';
+import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-commits',
@@ -16,6 +17,7 @@ export class CommitsComponent implements OnInit {
     public commits: object[];
     public links: Links[];
     public errorMessage: ErrorMessage;
+    public routerSubscribtion: Subscription;
 
     constructor(
         public commitsService: CommitsService,
@@ -24,21 +26,41 @@ export class CommitsComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.handlePageTitle();
         this.commitsService.getUserLS();
         // this.commits = JSON.parse(sessionStorage.getItem('commits'));
         this.links = this.commitsService.links;
 
-        const url = this.urlQueryRead(['repoUser', 'repoName', 'repoPage']);
+        const url = this.urlQueryReadByArray(['repoUser', 'repoName', 'repoPage']);
         if (url) this.getCommits(url);
+        this.handlePageTitle();
+        this.initOnBrowserGoBackEventGetCommits();
+        console.log(this.router.parseUrl(location.pathname));
+    }
+
+    initOnBrowserGoBackEventGetCommits(): void {
+        this.routerSubscribtion = this.router.events.subscribe(e => {
+            if (e instanceof NavigationStart) {
+                if (e.navigationTrigger === 'popstate' && e.restoredState !== null) {
+                    console.log(e);
+                    if (e.url.indexOf('?') === -1) {
+                        this.commits = this.links = null;
+                        if (e.url !== '/commits') console.log('this.router.navigateByUrl(e.url)');
+                    } else {
+                        this.commitsService.repoPage = e.url.split('repoPage=')[1];
+                        this.getCommits(this.buildGetCommitUrl());
+                    }
+                }
+            }
+        });
     }
 
     ngOnDestroy() {
         this.commitsService.links = null;
+        this.routerSubscribtion.unsubscribe();
     }
 
-    urlQueryRead( queryItems?: string[] ): string {
-        const urlQuery: object = this.commitsService.getUrlQuery();
+    urlQueryReadByArray( queryItems?: string[] ): string {
+        const urlQuery: object = this.commitsService.getUrlQueryAsObj();
         if ( urlQuery[queryItems[0]] && urlQuery[queryItems[1]] ) {
             for (const item of queryItems) {
                 if (urlQuery[item]) {
@@ -46,9 +68,14 @@ export class CommitsComponent implements OnInit {
                 }
             }
             this.commitsService.saveUserLS();
-            const url: string = `${this.commitsService.commitsUrl}?per_page=10&page=${this.commitsService.repoPage || 1}`;
+            // const url: string = `${this.commitsService.commitsUrl}?per_page=10&page=${this.commitsService.repoPage || 1}`;
+            const url: string = this.buildGetCommitUrl();
             return url;
         }
+    }
+
+    buildGetCommitUrl(): string {
+        return `${this.commitsService.commitsUrl}?per_page=10&page=${this.commitsService.repoPage || 1}`;
     }
 
     getCommits(url?: string): void {
@@ -84,8 +111,9 @@ export class CommitsComponent implements OnInit {
 
     handlePageTitle(): void {
         const titles = ['Enter user & repository', 'Commits browser'];
-        if ( this.commitsService.getUrlQuery()['repoUser'] ) {
-            this.commitsService.setTitle(titles[1]);
+        if ( location.search ) {
+            const extra = ', page ' + this.commitsService.repoPage;
+            this.commitsService.setTitle(titles[1] + extra);
         } else {
             this.commitsService.setTitle(titles[0]);
         }

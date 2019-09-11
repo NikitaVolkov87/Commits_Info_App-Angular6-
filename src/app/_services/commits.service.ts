@@ -111,7 +111,7 @@ export class CommitsService {
         return this.http.get( url, { headers: headers, observe: 'response' } );
     }
 
-    getUrlQuery(): object {
+    getUrlQueryAsObj(): object {
         return (<any>this.route.queryParams)._value;
     }
 
