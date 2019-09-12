@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 
 import { Links, ErrorMessage, urlQuery } from '../../_misc/interfaces';
 import { CommitsService } from '../../_services/commits.service';
@@ -44,7 +44,7 @@ export class CommitsComponent implements OnInit {
                     console.log(e);
                     if (e.url.indexOf('?') === -1) {
                         this.commits = this.links = null;
-                        if (e.url !== '/commits') console.log('this.router.navigateByUrl(e.url)');
+                        if (e.url === '/') this.router.navigateByUrl('/commits');
                     } else {
                         this.commitsService.repoPage = e.url.split('repoPage=')[1];
                         this.getCommits(this.buildGetCommitUrl());
@@ -57,6 +57,8 @@ export class CommitsComponent implements OnInit {
     ngOnDestroy() {
         this.commitsService.links = null;
         this.routerSubscribtion.unsubscribe();
+        console.log('destroy');
+        this.router.navigate(['/']);
     }
 
     urlQueryReadByArray( queryItems?: string[] ): string {
@@ -117,6 +119,10 @@ export class CommitsComponent implements OnInit {
         } else {
             this.commitsService.setTitle(titles[0]);
         }
+    }
+
+    t() {
+        this.router.navigate(['/userLogin']);
     }
 
     /*setFocusOnInputUserRepo() {

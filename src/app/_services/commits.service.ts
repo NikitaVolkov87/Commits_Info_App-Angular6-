@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {Links, UserData, urlToAccess} from './../_misc/interfaces';
+import {Links, UserData, urlToAccess, urlQuery} from './../_misc/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
@@ -30,7 +30,8 @@ export class CommitsService {
     constructor(
         private http: HttpClient,
         private route: ActivatedRoute,
-        private titleService: Title
+        private titleService: Title,
+        private router: Router
     ) { }
 
     getCommits(url?: string): Observable<any> {
@@ -122,6 +123,18 @@ export class CommitsService {
 
     public resetTitle() {
         this.titleService.setTitle('GitHub Commits App');
+    }
+
+    redirectToQuariedUrl(): void {
+        const urlQuery: urlQuery | object = this.getUrlQueryAsObj();
+        if ( this.initialPath && this.initialPath.urlPathname ) {
+            this.router.navigateByUrl(this.initialPath.urlPathname + this.initialPath.urlQuery );
+        } else if ( window.location.pathname.length > 1 ) {
+            this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery, skipLocationChange: true });
+        } else {
+            console.log('3 r');
+            this.router.navigate(['/commits'], { queryParams: urlQuery });
+        }
     }
 
     // examples of api requests

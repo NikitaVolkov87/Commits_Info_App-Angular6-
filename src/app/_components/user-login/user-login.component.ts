@@ -92,23 +92,14 @@ export class UserLoginComponent implements OnInit {
             this.userLoggedIn = true;
             document.cookie = `userLogin=${this.userLogin}; max-age=3600; path=/`;
             this.userName = userData.body.name || this.userLogin;
-            this.redirectToQuariedUrl();
+            this.commitsService.redirectToQuariedUrl();
         } else {
             this.notificator.show('User login error', userData.statusText, -1);
         }
         this.loader = false;
     }
 
-    redirectToQuariedUrl(): void {
-        const urlQuery: urlQuery | object = this.commitsService.getUrlQueryAsObj(); // const urlQuery: urlQuery = (<any>this.route.queryParams)._value;
-        if ( this.commitsService.initialPath && this.commitsService.initialPath.urlPathname ) {
-            this.router.navigateByUrl(this.commitsService.initialPath.urlPathname + this.commitsService.initialPath.urlQuery );
-        } else if ( window.location.pathname.length > 1 ) {
-            this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery, skipLocationChange: true });
-        } else {
-            this.router.navigate(['/commits'], { queryParams: urlQuery });
-        }
-    }
+
 
     check1(): void {
         this.notificator.show('test 1 passed', null, 1);
