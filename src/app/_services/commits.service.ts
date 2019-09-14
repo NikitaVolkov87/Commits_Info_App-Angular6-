@@ -75,13 +75,18 @@ export class CommitsService {
         this.setInitialCommitsUrl();
     }
 
-    getUserLS(): void {
-        const userLS: {repoUser: string, repoName: string} = JSON.parse(localStorage.getItem('user'));
-        if ( userLS ) {
-            this.repoUser = userLS.repoUser;
-            this.repoName = userLS.repoName;
+    getUserLS(repo?: object): void {
+        if (repo && repo.repoUser && repo.repoName) {
+            this.repoUser = repo.repoUser;
+            this.repoName = repo.repoName;
         } else {
-            this.resetUser();
+            const userLS: {repoUser: string, repoName: string} = JSON.parse(localStorage.getItem('user'));
+            if ( userLS ) {
+                this.repoUser = userLS.repoUser;
+                this.repoName = userLS.repoName;
+            } else {
+                this.resetUser();
+            }
         }
         this.setInitialCommitsUrl();
     }

@@ -66,9 +66,10 @@
     <div class="github__row github__row_succes">
       <div class="github__col github__col_succes">
         <a href="" class="github__link"
-          *ngFor="let commit of commits"
-          (click)="commitsService.commitHash = commit.sha"
-           routerLink="/commits/{{commit.sha}}">
+           *ngFor="let commit of commits"
+           (click)="commitsService.commitHash = commit.sha"
+           routerLink="/commits/{{commit.sha}}"
+           [queryParams]="linksQuery">
           <div class="github__subcol github__subcol_succes_number">
             <p class="github__link_number">{{(commits.indexOf(commit)+1)+10*(commitsService.repoPage-1)}}. </p>
           </div>

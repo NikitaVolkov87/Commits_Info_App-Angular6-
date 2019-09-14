@@ -18,6 +18,7 @@ export class CommitsComponent implements OnInit {
     public links: Links[];
     public errorMessage: ErrorMessage;
     public routerSubscribtion: Subscription;
+    public linksQuery: string;
 
     constructor(
         public commitsService: CommitsService,
@@ -44,7 +45,7 @@ export class CommitsComponent implements OnInit {
                     console.log(e);
                     if (e.url.indexOf('?') === -1) {
                         this.commits = this.links = null;
-                        if (e.url === '/') this.router.navigateByUrl('/commits');
+                        if (e.url === '/') this.router.navigate(['/commits']);
                     } else {
                         this.commitsService.repoPage = e.url.split('repoPage=')[1];
                         this.getCommits(this.buildGetCommitUrl());
@@ -58,7 +59,6 @@ export class CommitsComponent implements OnInit {
         this.commitsService.links = null;
         this.routerSubscribtion.unsubscribe();
         console.log('destroy');
-        this.router.navigate(['/']);
     }
 
     urlQueryReadByArray( queryItems?: string[] ): string {
@@ -84,6 +84,7 @@ export class CommitsComponent implements OnInit {
         // this.inputEl1.nativeElement.focus();
         this.commitsService.repoPage = url ? url.split('&page=')[1] : '1';
         this.syncRoute();
+        this.addQueryToLinks();
         this.commitsService.getCommits(url).subscribe( answer => {
             this.commits = null;
             this.errorMessage = null;
@@ -100,6 +101,18 @@ export class CommitsComponent implements OnInit {
                 body: error.message
             }
         });
+    }
+
+    addQueryToLinks(): void {
+        if (!this.linksQuery) {
+            console.log('no query');
+            this.linksQuery = {
+                repoUser: this.commitsService.repoUser,
+                repoName: this.commitsService.repoName
+            };
+        } else {
+            console.log('query is - ', this.linksQuery);
+        }
     }
 
     syncRoute(): void {

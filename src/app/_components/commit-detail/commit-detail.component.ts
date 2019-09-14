@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { ErrorMessage } from '../../_misc/interfaces';
@@ -17,14 +17,20 @@ export class CommitDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private commitsService: CommitsService,
         private location: Location
     ) {}
 
     ngOnInit(): void {
-        this.commitsService.getUserLS();
+        this.getRepo();
         this.getCommitDetail();
         this.commitsService.setTitle("Commit's details");
+        console.log(this.router);
+    }
+
+    getRepo(): void {
+        this.commitsService.getUserLS(this.router.currentUrlTree.queryParams || null);
     }
 
     getCommitDetail(): void {
