@@ -17,7 +17,7 @@ export class CommitDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router,
+        public router: Router,
         private commitsService: CommitsService,
         private location: Location
     ) {}
@@ -31,6 +31,10 @@ export class CommitDetailComponent implements OnInit {
 
     getRepo(): void {
         this.commitsService.getUserLS(this.router.currentUrlTree.queryParams || null);
+        this.route.queryParamMap.subscribe(params => {
+            console.log('p => ');
+            console.log(params);
+        });
     }
 
     getCommitDetail(): void {

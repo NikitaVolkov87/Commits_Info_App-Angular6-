@@ -18,7 +18,7 @@ export class CommitsComponent implements OnInit {
     public links: Links[];
     public errorMessage: ErrorMessage;
     public routerSubscribtion: Subscription;
-    public linksQuery: string;
+    public linksQuery: urlQuery;
 
     constructor(
         public commitsService: CommitsService,

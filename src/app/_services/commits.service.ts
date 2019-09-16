@@ -24,6 +24,7 @@ export class CommitsService {
     public urlDomain: string = 'https://api.github.com';
     public initialPath: urlToAccess;
     public commitsUrl: string;
+    public urlQuery: Observable<urlQuery>;
 
     private token: string = '';
 
@@ -75,7 +76,7 @@ export class CommitsService {
         this.setInitialCommitsUrl();
     }
 
-    getUserLS(repo?: object): void {
+    getUserLS(repo?: urlQuery): void {
         if (repo && repo.repoUser && repo.repoName) {
             this.repoUser = repo.repoUser;
             this.repoName = repo.repoName;
@@ -118,6 +119,9 @@ export class CommitsService {
     }
 
     getUrlQueryAsObj(): object {
+        this.route.queryParams.subscribe(params => {
+            this.urlQuery = params;
+        });
         return (<any>this.route.queryParams)._value;
     }
 
@@ -133,8 +137,10 @@ export class CommitsService {
     redirectToQuariedUrl(): void {
         const urlQuery: urlQuery | object = this.getUrlQueryAsObj();
         if ( this.initialPath && this.initialPath.urlPathname ) {
+            console.log(1);
             this.router.navigateByUrl(this.initialPath.urlPathname + this.initialPath.urlQuery );
         } else if ( window.location.pathname.length > 1 ) {
+            console.log(2);
             this.router.navigateByUrl( window.location.pathname, { queryParams: urlQuery, skipLocationChange: true });
         } else {
             console.log('3 r');
